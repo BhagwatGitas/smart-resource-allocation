@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import "tailwindcss";
+
+@theme {
+  /* ─── Colors (Material 3) ─── */
+  --color-primary: #b7131a;
+  --color-primary-container: #db322f;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #fffbff;
+  --color-primary-fixed: #ffdad6;
+  --color-primary-fixed-dim: #ffb4ac;
+  --color-on-primary-fixed: #410002;
+  --color-on-primary-fixed-variant: #93000d;
+  --color-inverse-primary: #ffb4ac;
+
+  --color-secondary: #005faf;
+  --color-secondary-container: #54a0fe;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #003567;
+  --color-secondary-fixed: #d4e3ff;
+  --color-secondary-fixed-dim: #a5c8ff;
+  --color-on-secondary-fixed: #001c3a;
+  --color-on-secondary-fixed-variant: #004786;
+
+  --color-tertiary: #006b1b;
+  --color-tertiary-container: #268630;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #f7fff1;
+  --color-tertiary-fixed: #98f994;
+  --color-tertiary-fixed-dim: #7ddc7a;
+  --color-on-tertiary-fixed: #002204;
+  --color-on-tertiary-fixed-variant: #005313;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
+
+  --color-background: #f8f9fa;
+  --color-on-background: #191c1d;
+  --color-surface: #f8f9fa;
+  --color-surface-dim: #d9dadb;
+  --color-surface-bright: #f8f9fa;
+  --color-surface-tint: #bb171c;
+  --color-surface-variant: #e1e3e4;
+  --color-on-surface: #191c1d;
+  --color-on-surface-variant: #5b403d;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f4f5;
+  --color-surface-container: #edeeef;
+  --color-surface-container-high: #e7e8e9;
+  --color-surface-container-highest: #e1e3e4;
+
+  --color-outline: #906f6c;
+  --color-outline-variant: #e4beb9;
+  --color-inverse-surface: #2e3132;
+  --color-inverse-on-surface: #f0f1f2;
+
+  /* ─── Design spacing (prefixed to avoid conflicts) ─── */
+  --spacing-ds-xs: 4px;
+  --spacing-ds-base: 8px;
+  --spacing-ds-sm: 12px;
+  --spacing-ds-md: 16px;
+  --spacing-ds-lg: 24px;
+  --spacing-ds-xl: 32px;
+  --spacing-ds-xxl: 48px;
+  --spacing-ds-gutter: 24px;
+
+  /* ─── Border Radius ─── */
+  --radius-2xl: 24px;
+
+  /* ─── Font Families ─── */
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-inter: "Inter", sans-serif;
+
+  /* ─── Font Sizes ─── */
+  --text-display: 57px;
+  --text-display--line-height: 64px;
+  --text-display--font-weight: 700;
+  --text-display--letter-spacing: -0.25px;
+
+  --text-h1: 36px;
+  --text-h1--line-height: 44px;
+  --text-h1--font-weight: 700;
+
+  --text-h2: 30px;
+  --text-h2--line-height: 38px;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 22px;
+  --text-h3--line-height: 30px;
+  --text-h3--font-weight: 600;
+}
+
+/* ─── Base ─── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    background-color: #f8f9fa;
+    color: #191c1d;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  p {
+    max-width: 72ch;
+  }
+}
+
+/* ─── Utility classes ─── */
+.font-jakarta { font-family: "Plus Jakarta Sans", sans-serif; }
+.font-inter   { font-family: "Inter", sans-serif; }
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.shadow-soft { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.shadow-high { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+/* ─── Page transition wrapper ─── */
+.page-enter {
+  animation: fadeUp 0.45s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
