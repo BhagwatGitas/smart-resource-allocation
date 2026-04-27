@@ -6,7 +6,6 @@ const navLinks = [
   { to: '/centers', label: 'Centers' },
   { to: '/our-impact', label: 'Impact' },
   { to: '/register', label: 'Register' },
-  { to: '/emergency', label: 'Emergency' },
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/my-impact', label: 'My Profile' },
 ];
@@ -38,10 +37,6 @@ export default function TopNav() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/emergency" className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-[#b7131a] text-white rounded-full font-bold font-jakarta text-sm shadow-lg hover:bg-[#9a1016] transition-all active:scale-95">
-              <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>emergency</span>
-              Emergency
-            </Link>
             <Link to="/my-impact" className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full hover:bg-[#f3f4f5] transition-all">
               <span className="material-symbols-outlined text-[#5b403d]">account_circle</span>
             </Link>
@@ -77,13 +72,6 @@ export default function TopNav() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                to="/emergency"
-                onClick={() => setMobileOpen(false)}
-                className="block mt-3 text-center py-3 bg-[#b7131a] text-white rounded-xl font-bold font-jakarta text-sm"
-              >
-                Emergency Request
-              </Link>
             </div>
           </motion.div>
         )}

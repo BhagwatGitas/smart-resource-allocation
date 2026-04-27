@@ -5,7 +5,6 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Centers from './pages/Centers';
-import EmergencyRequest from './pages/EmergencyRequest';
 import HospitalDashboard from './pages/HospitalDashboard';
 import MyImpact from './pages/MyImpact';
 import OurImpact from './pages/OurImpact';
@@ -25,7 +24,6 @@ function AnimatedRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/centers" element={<Centers />} />
-          <Route path="/emergency" element={<EmergencyRequest />} />
           <Route path="/dashboard" element={<HospitalDashboard />} />
           <Route path="/my-impact" element={<MyImpact />} />
           <Route path="/our-impact" element={<OurImpact />} />
@@ -35,16 +33,25 @@ function AnimatedRoutes() {
   );
 }
 
+function AppContent() {
+  const location = useLocation();
+  const isDashboard = location.pathname === '/dashboard';
+
+  return (
+    <div className="font-inter text-[#191c1d] flex flex-col min-h-screen">
+      {!isDashboard && <TopNav />}
+      <div className="flex-grow">
+        <AnimatedRoutes />
+      </div>
+      {!isDashboard && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <div className="font-inter text-[#191c1d] flex flex-col min-h-screen">
-        <TopNav />
-        <div className="flex-grow">
-          <AnimatedRoutes />
-        </div>
-        <Footer />
-      </div>
+      <AppContent />
     </BrowserRouter>
   );
 }

@@ -1,55 +1,92 @@
 # 🏥 Smart Hospital Resource Allocation System
-## Complete Project Roadmap | **4-Member Team (Frontend · Backend · AI/ML · DevOps)**
+## Hackathon Roadmap | **4-Member Team (Frontend · Backend · AI/ML · DevOps)**
 
-> **Stack**: React 18 + TypeScript · Node.js (Express) · **Python FastAPI (AI/ML Microservice)** · PostgreSQL + Redis · Socket.io · Docker · GitHub Actions · AWS/GCP
-> **Goal**: Patient requests Blood / Organ → AI matches & predicts availability → Real-time allocation in < 5 seconds
-> **Duration**: 8 Weeks (2 Months)
+> **Theme**: Smart Resource Allocation — Data-Driven Volunteer Coordination for Social Impact
+> **Stack**: React 18 + TypeScript · Node.js (Express) · Python FastAPI · PostgreSQL + Redis · Socket.io · Docker · GitHub Actions
+> **Goal**: AI-powered blood & organ allocation — right resource, right patient, right time — in < 5 seconds
+> **Duration**: 8 Weeks
 
 ---
 
 ## TABLE OF CONTENTS
 
-1. [Project Overview & Differentiators](#1-project-overview--differentiators)
-2. [System Architecture](#2-system-architecture)
-3. [Database Schema](#3-database-schema)
-4. [Folder Structure](#4-folder-structure)
-5. [Environment Variables](#5-environment-variables)
-6. [Member 1 — Frontend Developer Roadmap](#6-member-1--frontend-developer-roadmap)
-7. [Member 2 — Backend Developer Roadmap](#7-member-2--backend-developer-roadmap)
-8. [Member 3 — AI/ML Engineer Roadmap](#8-member-3--aiml-engineer-roadmap)
-9. [Member 4 — DevOps Engineer Roadmap](#9-member-4--devops-engineer-roadmap)
-10. [API Reference](#10-api-reference)
-11. [Integration Points Table](#11-integration-points-table)
-12. [Project Survival Rules](#12-project-survival-rules)
-13. [Build Order Quick Reference](#13-build-order-quick-reference)
-14. [Demo Script](#14-demo-script)
+1. [Project Overview & Problem Statement](#1-project-overview--problem-statement)
+2. [How This Fits the Hackathon Theme](#2-how-this-fits-the-hackathon-theme)
+3. [System Architecture](#3-system-architecture)
+4. [Database Schema (Corrected)](#4-database-schema-corrected)
+5. [User Roles & Permissions](#5-user-roles--permissions)
+6. [Complete Workflows (Real-Life Corrected)](#6-complete-workflows-real-life-corrected)
+7. [Legal & Compliance Layer](#7-legal--compliance-layer)
+8. [Member 1 — Frontend Developer Roadmap](#8-member-1--frontend-developer-roadmap)
+9. [Member 2 — Backend Developer Roadmap](#9-member-2--backend-developer-roadmap)
+10. [Member 3 — AI/ML Engineer Roadmap](#10-member-3--aiml-engineer-roadmap)
+11. [Member 4 — DevOps Engineer Roadmap](#11-member-4--devops-engineer-roadmap)
+12. [API Reference](#12-api-reference)
+13. [WebSocket Events](#13-websocket-events)
+14. [Integration Points Table](#14-integration-points-table)
+15. [Week-by-Week Build Order](#15-week-by-week-build-order)
+16. [Project Survival Rules](#16-project-survival-rules)
+17. [Hackathon Demo Script](#17-hackathon-demo-script)
 
 ---
 
-## 1. Project Overview & Differentiators
+## 1. Project Overview & Problem Statement
+
+### The Problem
+Every year hospitals fail to save lives — not because of missing doctors — but because of missing resources at the right time. Blood inventory is managed in Excel sheets. Organ matching is done manually over phone calls. No prediction. No real-time visibility. No smart coordination.
 
 ### What We're Building
-A real-time hospital resource management platform where patients, doctors, and admins can request and track **blood** (all 8 types: A+, A−, B+, B−, AB+, AB−, O+, O−) and **organs** (kidney, liver, heart, lungs, cornea, pancreas) — with AI-powered matching, shortage prediction, and priority scoring, all updating live.
+A real-time AI-powered hospital resource management platform that:
+- Tracks **blood donations** across all 8 types (A+, A−, B+, B−, AB+, AB−, O+, O−)
+- Matches **organ donors** to compatible patients using AI with SHAP explainability
+- Predicts **blood shortages** 7 days in advance using time-series forecasting
+- Updates **every stakeholder in real-time** via WebSocket — no page refresh needed
 
 ### Who Uses It
-- **Doctors & Nurses** — request critical resources instantly; see real-time blood and organ availability
-- **Hospital Admins** — manage inventory, view AI shortage alerts, approve organ matches
-- **Patients / Families** — track their resource request status in real time
 
-### Our 6 Differentiators vs Existing Systems
+| User | What They Do |
+|---|---|
+| **Hospital Admin** | Registers blood donors, manages inventory, confirms organ matches |
+| **Doctor** | Requests blood from blood bank for patients, reviews AI organ match suggestions, gives medical approval |
+| **Nurse** | Submits blood requests, tracks patient status |
+| **Donor** | Registers, gives consent, tracks their donation status |
+| **Patient / Family** | Tracks their own request status only (read-only) |
+
+### Our 9 Differentiators vs Existing Systems
 
 | Gap in Existing Tools | Our Answer |
 |---|---|
 | Static blood inventory spreadsheets | ✅ Real-time WebSocket updates for blood stock changes |
-| No blood demand forecasting | ✅ Time-series AI model predicts shortage 3–7 days ahead |
-| Manual organ matching | ✅ ML compatibility scorer with ranked candidate list |
+| No blood demand forecasting | ✅ Prophet AI model predicts shortage 7 days ahead |
+| Manual organ matching | ✅ Random Forest ML scorer with ranked candidate list |
 | Siloed per-department data | ✅ Unified cross-hospital dashboard |
-| No priority scoring for requests | ✅ AI urgency + compatibility combined priority engine |
-| Black-box decisions | ✅ SHAP-style explainability on every AI recommendation |
+| No priority scoring for requests | ✅ AI urgency + wait time + compatibility combined score (P1–P4) |
+| Black-box decisions | ✅ SHAP explainability on every AI recommendation |
+| No donor traceability | ✅ Every donated unit linked from donor → patient (audit trail) |
+| No cross-hospital coordination | ✅ AI automatically searches network hospitals when local stock/donor unavailable |
+| No post-transplant monitoring | ✅ AI monitors post-op rejection risk and fires anomaly alerts |
 
 ---
 
-## 2. System Architecture
+## 2. How This Fits the Hackathon Theme
+
+> **Theme**: Smart Resource Allocation — Data-Driven Volunteer Coordination for Social Impact
+
+| Theme Words | Our Hospital System |
+|---|---|
+| "Scattered community information" | Blood requests + organ requests from multiple hospitals unified in one system |
+| "Paper surveys and field reports" | Digital donor registration forms + blood request forms replacing paper-based processes |
+| "Show most urgent local needs" | AI Priority Engine ranks all requests P1→P4; shortage alerts fire automatically |
+| "Smart matching" | AI Organ Matcher ranks donors to patients in < 200ms with SHAP explanation |
+| "Connect volunteers to tasks" | Donors (volunteers) matched to patients (community in need) by blood type, HLA, urgency |
+| "Areas where needed most" | Hospital-scoped WebSocket rooms — each hospital sees its own critical needs |
+| "Social Impact" | Every correct allocation = a life saved |
+
+**In one sentence**: Patients are the community in need, donors are the volunteers, blood/organs are the resources, and hospitals are the local areas. Our AI allocates the right resource to the right patient at the right hospital, in real time.
+
+---
+
+## 3. System Architecture
 
 ```
 +----------------------------------------------------------------------------------+
@@ -66,43 +103,46 @@ A real-time hospital resource management platform where patients, doctors, and a
 |           |                        |                                              |
 |           v                        v                                              |
 |  +------------------+    +----------------------+                                |
-|  |  BROWSER STATE    |    |  POSTGRES + REDIS     |                                |
-|  |  Zustand Store    |    |  Patient Records      |                                |
-|  |  React Query Cache|    |  Blood Inventory      |                                |
-|  +------------------+    |  Organ Registry       |                                |
-|                           +----------------------+                                |
+|  |  BROWSER STATE    |    |  POSTGRES + REDIS     |                              |
+|  |  Zustand Store    |    |  Patient Records      |                              |
+|  |  React Query Cache|    |  Blood Inventory      |                              |
+|  +------------------+    |  Organ Registry       |                              |
+|                           +----------------------+                               |
 +----------------------------------------------------------------------------------+
 ```
 
-> ⚡ **Key Architecture Decision**: The Node.js backend is the **single point of contact** for the frontend. It forwards all AI/ML tasks to the **Python FastAPI microservice** via internal HTTP. Member 1 (Frontend) always calls the same Node.js endpoints — no direct contact with Python service.
+> ⚡ **Key Architecture Decision**: Node.js backend is the **single point of contact** for the frontend. It proxies all AI tasks to Python FastAPI via internal HTTP. Frontend never touches Python directly.
 
 ### End-to-End Data Flow
 
 ```
-Doctor submits resource request (Blood / Organ)
+Doctor submits blood/organ request
         |
         v
-[Node.js Backend] validate → check Redis cache → query PostgreSQL
+[Node.js Backend] → validate (Zod) → check Redis cache → save to PostgreSQL
         |
-        +---> [Python AI Service] POST /ai/blood/forecast
-        |     → { blood_type, predicted_units, shortage_risk, confidence }
+        +---> [Python AI] POST /ai/priority            → P1/P2/P3/P4 score (background)
         |
-        +---> [Python AI Service] POST /ai/organ/match
-        |     → { ranked_recipients: [{patient_id, score, factors}] }
+        +---> [Python AI] POST /ai/blood/forecast      → shortage prediction (on blood page load)
         |
-        +---> [Python AI Service] POST /ai/priority
-        |     → { priority_score, urgency_level, explanation_factors }
+        +---> [Python AI] POST /ai/organ/match         → ranked donor list (local + cross-hospital)
+        |
+        +---> [Python AI] POST /ai/blood/check-stock   → local stock check → cross-hospital if unavailable
+        |
+        +---> [Python AI] POST /ai/postop/monitor      → rejection risk score + anomaly alerts
+        |
+        +---> [Python AI] POST /ai/reports/summary     → monthly blood use · transplant stats · alerts
         |
         v
-[Node.js Backend] save → publish WebSocket event → respond to frontend
+[Node.js Backend] → publish WebSocket event → respond to frontend
         |
         v
-[Frontend] Dashboard updates in real-time: availability + AI recommendations
+[Frontend] → all connected users see live update instantly
 ```
 
 ---
 
-## 3. Database Schema
+## 4. Database Schema (Corrected)
 
 ```
 hospital_system (PostgreSQL)
@@ -113,12 +153,14 @@ hospital_system (PostgreSQL)
 |
 +-- users
 |   +-- id, name, email, password_hash
-|   +-- role (admin/doctor/nurse/patient)
+|   +-- role (admin/doctor/nurse/donor/patient)
+|   +-- government_id                          ← NEW: legal verification
 |   +-- hospital_id (FK), createdAt
 |
 +-- patients
 |   +-- id, user_id (FK), name, age, gender, blood_type
-|   +-- diagnosis, admission_date, discharge_date
+|   +-- diagnosis (AES-256 encrypted)
+|   +-- admission_date, discharge_date
 |
 +-- blood_inventory
 |   +-- id, hospital_id (FK)
@@ -126,26 +168,54 @@ hospital_system (PostgreSQL)
 |   +-- units_available, expiry_date, last_restocked
 |   +-- min_threshold (alert trigger)
 |
++-- blood_donations                            ← NEW TABLE (was missing)
+|   +-- id, donor_id (FK → users)
+|   +-- blood_type, units_donated
+|   +-- donation_date
+|   +-- expiry_date                            (whole blood: 35 days)
+|   +-- lab_test_status (pending/cleared/rejected)
+|   +-- used_in_request_id (FK → blood_requests) ← traceability
+|   +-- hospital_id (FK)
+|
 +-- blood_requests
 |   +-- id, patient_id (FK), doctor_id (FK), hospital_id (FK)
 |   +-- blood_type, units_required
 |   +-- urgency (critical/high/medium/low)
+|   +-- clinical_reason                        ← NEW: why blood is needed
 |   +-- status (pending/approved/fulfilled/rejected)
 |   +-- ai_priority_score, ai_urgency_level
 |   +-- createdAt, fulfilledAt
 |
 +-- organ_donors
-|   +-- id, name, age, gender, blood_type
+|   +-- id, user_id (FK → users)
+|   +-- name, age, gender, blood_type
+|   +-- donor_type (living/deceased)           ← NEW: critical legal distinction
 |   +-- available_organs [kidney/liver/heart/lungs/cornea/pancreas]
-|   +-- hla_markers, hospital_id (FK)
+|   +-- hla_markers (JSON array)
+|   +-- consent_signed (boolean)               ← NEW: legal requirement
+|   +-- consent_document_url                   ← NEW: uploaded document
+|   +-- government_id                          ← NEW: identity verification
+|   +-- independent_evaluation_done (boolean)  ← NEW: for living donors
+|   +-- family_consent (boolean)               ← NEW: for deceased donors
+|   +-- brain_death_certified (boolean)        ← NEW: for deceased donors
+|   +-- hospital_id (FK)
 |   +-- status (active/matched/expired)
+|   +-- registered_at
 |
 +-- organ_requests
-|   +-- id, patient_id (FK), doctor_id (FK), organ_type
-|   +-- urgency_score (0-100), wait_since
+|   +-- id, patient_id (FK), doctor_id (FK)
+|   +-- organ_type (kidney/liver/heart/lungs/cornea/pancreas)
+|   +-- urgency_score (0-100)
+|   +-- clinical_notes                         ← NEW: doctor's medical notes
+|   +-- wait_since
 |   +-- status (waiting/matched/transplanted/cancelled)
-|   +-- matched_donor_id (FK)
+|   +-- matched_donor_id (FK → organ_donors)
+|   +-- doctor_approved (boolean)              ← NEW: doctor medical approval
+|   +-- doctor_approved_at                     ← NEW: timestamp
+|   +-- admin_confirmed (boolean)              ← NEW: admin legal confirmation
+|   +-- admin_confirmed_at                     ← NEW: timestamp
 |   +-- ai_priority_score, ai_urgency_level
+|   +-- hospital_id (FK)
 |
 +-- audit_logs
     +-- id, action_type, resource_type, resource_id
@@ -162,138 +232,397 @@ ai:organ_match:{request_id}                  →  { ranked JSON }         TTL: 3
 
 ---
 
-## 4. Folder Structure
+## 5. User Roles & Permissions
 
 ```
-hospital-resource-system/                   ← Monorepo root
-|
-+-- frontend/                               ← Member 1
-|   +-- src/
-|   |   +-- app/
-|   |   |   +-- layout.tsx
-|   |   |   +-- page.tsx
-|   |   |   +-- (auth)/login/page.tsx
-|   |   |   +-- (auth)/register/page.tsx
-|   |   |   +-- dashboard/page.tsx
-|   |   |   +-- blood/page.tsx
-|   |   |   +-- organs/page.tsx
-|   |   |   +-- requests/page.tsx
-|   |   |   +-- admin/page.tsx
-|   |   +-- components/
-|   |   |   +-- ui/       (BloodTypeCard, OrganCard, PriorityBadge, FactorCard)
-|   |   |   +-- charts/   (BloodForecastChart, CompatibilityRankList)
-|   |   |   +-- forms/    (BloodRequestForm, OrganRequestForm)
-|   |   |   +-- layout/   (Sidebar, Navbar, AlertBanner, NotificationCenter)
-|   |   +-- hooks/        (useSocket, useBlood, useOrgans, useAuth)
-|   |   +-- store/        (Zustand: auth, notifications, resources)
-|   |   +-- lib/          (axios instance, query client, socket client)
-|   +-- Dockerfile
-|
-+-- backend/                                ← Member 2
-|   +-- src/
-|   |   +-- routes/
-|   |   |   +-- auth.ts
-|   |   |   +-- hospitals.ts
-|   |   |   +-- blood.ts
-|   |   |   +-- organs.ts
-|   |   |   +-- patients.ts
-|   |   |   +-- ai.ts           (proxy to Python AI service)
-|   |   |   +-- audit.ts
-|   |   +-- middleware/
-|   |   |   +-- auth.ts         (JWT verify + RBAC)
-|   |   |   +-- cache.ts        (Redis cache middleware)
-|   |   |   +-- validate.ts     (Zod schemas)
-|   |   |   +-- rateLimit.ts
-|   |   +-- services/
-|   |   |   +-- aiClient.ts     (HTTP client to Python AI service)
-|   |   |   +-- socket.ts       (Socket.io emitters)
-|   |   |   +-- notifications.ts
-|   |   +-- prisma/schema.prisma
-|   |   +-- index.ts
-|   +-- tests/
-|   +-- swagger.yaml
-|   +-- Dockerfile
-|
-+-- ml-service/                             ← Member 3
-|   +-- app/
-|   |   +-- main.py
-|   |   +-- routers/
-|   |   |   +-- blood.py        (POST /ai/blood/forecast)
-|   |   |   +-- organ.py        (POST /ai/organ/match)
-|   |   |   +-- priority.py     (POST /ai/priority)
-|   |   +-- services/
-|   |   |   +-- blood_forecast.py
-|   |   |   +-- organ_matcher.py
-|   |   |   +-- priority_engine.py
-|   |   +-- models/             (saved .pkl files)
-|   |   +-- schemas/            (Pydantic input/output)
-|   |   +-- utils/              (SHAP explainer, feature engineering)
-|   +-- training/               (notebooks, training scripts)
-|   +-- tests/
-|   +-- requirements.txt
-|   +-- Dockerfile
-|
-+-- infra/                                  ← Member 4
-|   +-- terraform/
-|   +-- k8s/
-|   |   +-- frontend-deployment.yaml
-|   |   +-- backend-deployment.yaml
-|   |   +-- ml-service-deployment.yaml
-|   |   +-- ingress.yaml
-|   +-- monitoring/
-|       +-- prometheus.yml
-|       +-- grafana-dashboard.json
-|
-+-- .github/workflows/
-|   +-- frontend-ci.yml
-|   +-- backend-ci.yml
-|   +-- ml-service-ci.yml
-|
-+-- docker-compose.yml                      ← Member 4 owns
-+-- README.md
+ROLE          CAN DO                                        CANNOT DO
+----------    ------------------------------------------    ---------------------------
+admin         Register blood donors                         Submit requests for patients
+              Manage blood inventory + restock              Access other hospitals' data
+              Register organ donors
+              Confirm organ match (legal step)
+              View all requests in priority queue
+              View audit logs
+
+doctor        Submit blood request for patient              Approve their own requests
+              Submit organ request for patient              Restock inventory
+              Review AI organ match ranked list             Register donors
+              Give medical approval on organ match
+
+nurse         Submit blood request for patient              Submit organ requests
+              Track patient request status                  Approve anything
+                                                            Access admin panel
+
+donor         Register (admin creates account)              Submit requests
+              View own donation status                      See other patients' data
+              Digitally sign consent
+
+patient       View their OWN request status only            Submit any request
+              View their OWN organ/blood request            See other patients' data
+              Track live status updates                     Access any form
 ```
 
 ---
 
-## 5. Environment Variables
+## 6. Complete Workflows (Real-Life Corrected)
 
-### Frontend (`frontend/.env.local`)
-```env
-VITE_API_BASE_URL=http://localhost:4000
-VITE_SOCKET_URL=http://localhost:4000
+---
+
+### 🩸 BLOOD WORKFLOW
+
+#### Flow 1 — Blood Donation (Updated per new workflow)
+
+```
+Donor registers / walks in
+├── Creates donor profile in system
+                    ↓
+Doctor: health screening
+├── BP, Hb, eligibility check
+├── Age: 18–65 years
+├── Weight: > 50 kg
+├── Last donation: at least 90 days ago
+└── No active infection / medication / disease
+                    ↓
+         ┌──────────────────┐
+         │   Eligible?      │ ← Doctor decides
+         │  Doctor decides  │
+         └──────────────────┘
+          /                  \
+        No                   Yes
+         ↓                    ↓
+   Deferred              Blood collection
+   Notify donor     Donor donates, unit bagged & tagged
+                              ↓
+                Lab: blood group & disease test
+                ├── ABO/Rh typing
+                ├── HIV screening
+                ├── Hepatitis B/C screening
+                └── (Malaria where applicable)
+                              ↓
+                AI: logs unit to blood bank
+                ├── Updates live inventory & expiry tracking
+                └── ──→ [AI blood alert] Low stock → notify admin
+                              ↓
+                Admin: approve & store unit
+                └── Quarantine lifted, unit available
+                              ↓
+                Donor receives donation card
+                └── Next eligible date set by system
 ```
 
-### Backend (`backend/.env`)
-```env
-PORT=4000
-DATABASE_URL=postgresql://user:password@localhost:5432/hospital_db
-REDIS_URL=redis://localhost:6379
-JWT_SECRET=your_jwt_secret_here
-JWT_EXPIRES_IN=7d
-AI_SERVICE_URL=http://localhost:8000
-BCRYPT_ROUNDS=12
-```
+#### Flow 2 — Doctor Requests Blood + AI Allocation (Updated per new workflow)
 
-### ML Service (`ml-service/.env`)
-```env
-PORT=8000
-MODEL_DIR=./models
-LOG_LEVEL=info
 ```
-
-### DevOps / Infra (`infra/.env`)
-```env
-AWS_REGION=ap-south-1
-ECR_REGISTRY=your_account.dkr.ecr.ap-south-1.amazonaws.com
-DB_INSTANCE_CLASS=db.t3.medium
-REDIS_NODE_TYPE=cache.t3.micro
+Doctor: raises blood request
+├── Blood type, units needed, urgency level
+└── Clinical reason: "surgery" / "accident" / "anemia"
+                    ↓
+System validates:
+├── Doctor is verified and role = doctor ✅
+└── Patient is admitted at this hospital ✅
+                    ↓
+AI: checks local blood bank
+├── Matches type, volume, expiry date
+└── Assigns AI priority score (P1–P4)
+                    ↓
+         ┌──────────────────────┐
+         │   Stock available?   │ ← AI / System decides
+         └──────────────────────┘
+          /                       \
+        No                        Yes
+         ↓                          ↓
+[Cross-hospital]           Admin: approves unit release
+AI: search other            Cross-match confirmed,
+hospitals — urgent          unit issued
+request                              ↓
+                          Doctor: transfusion to patient
+                          Bedside check, infusion monitored
+                                     ↓
+                          AI: deducts & checks stock level
+                          └── Sends low-stock alert if threshold hit
+                              ──→ [Admin alert] Replenish blood drive
+                                     ↓
+                          Patient outcome recorded
+                          └── Doctor logs reaction / success
 ```
 
 ---
 
-## 6. Member 1 — Frontend Developer Roadmap
+### 🫀 ORGAN WORKFLOW
 
-**Owns**: All UI/UX — pages, components, real-time updates, charts, forms, accessibility
+#### Donor Types — Understanding First
+
+```
+TYPE A — Living Donor (can donate: one kidney OR partial liver only)
+├── Person voluntarily comes forward
+├── Must be 18+ with full mental capacity
+├── Relation to recipient verified
+├── Independent medical evaluation by separate doctor
+└── Written + digital consent signed
+
+TYPE B — Deceased Donor (can donate: both kidneys, liver, heart, lungs, cornea, pancreas)
+├── Patient declared brain dead in ICU
+├── Certified by 2 independent doctors (legal requirement)
+├── Family gives written consent
+└── Time critical — clock starts immediately:
+    ├── Heart  → 4–6 hours window
+    ├── Liver  → 12–24 hours window
+    ├── Kidney → 24–36 hours window
+    └── Cornea → up to 14 days
+```
+
+#### Flow 1 — Organ Donor Registration (Updated per new workflow)
+
+```
+LIVING DONOR:
+Person decides to donate kidney to family member
+                    ↓
+Comes to hospital with Government ID
+                    ↓
+Donor: gives organ consent
+└── Living or deceased, organs pledged
+                    ↓
+Admin: registers donor profile
+├── Blood group, HLA markers, organ list logged
+├── Name, Age, Gender, Government ID
+├── donor_type → living
+├── available_organs → [kidney]
+├── hla_markers → [A2, B7, DR4]
+├── consent_signed → true ✅
+├── independent_evaluation_done → true ✅
+└── status → active
+                    ↓
+Doctor: medical evaluation
+├── Viability check
+├── Contraindications check
+└── (legally required independent doctor)
+
+─────────────────────────────────────────
+
+DECEASED DONOR:
+Patient in ICU declared brain dead
+                    ↓
+2 independent doctors certify brain death (legal requirement)
+                    ↓
+Doctor informs family → family gives written consent
+                    ↓
+Donor: gives organ consent (family on behalf)
+└── Deceased, organs pledged
+                    ↓
+Admin: registers donor profile
+├── donor_type → deceased
+├── available_organs → [kidney, liver, heart, lungs, cornea, pancreas]
+├── brain_death_certified → true ✅
+├── family_consent → true ✅
+└── status → active
+                    ↓
+Doctor: medical evaluation
+└── Viability, contraindications check
+                    ↓
+⚠️ COUNTDOWN STARTS — system shows organ viability timer:
+├── Heart  → 4 hrs remaining
+├── Liver  → 12 hrs remaining
+├── Kidney → 24 hrs remaining
+└── Cornea → 14 days remaining
+```
+
+#### Flow 2 — Patient Needs Organ
+
+```
+Patient diagnosed with kidney failure
+                    ↓
+DOCTOR submits Organ Request:
+├── Select patient from admitted list
+├── organ_type → kidney
+├── urgency_score → 85 / 100
+├── clinical_notes → "Stage 5 kidney failure, dialysis 3x/week"
+└── wait_since → date patient started waiting
+                    ↓
+organ_requests saved → status: "waiting"
+                    ↓
+AI Priority Engine scores in background:
+├── Urgency 40% + Wait time 30% + Compatibility 30%
+└── P1 / P2 / P3 / P4 assigned
+                    ↓
+Request enters transplant waiting list
+sorted by AI priority score
+```
+
+#### Flow 3 — AI Organ Matching (Updated per new workflow)
+
+```
+Doctor: medical evaluation complete
+                    ↓
+AI organ match engine runs:
+├── Blood group compatibility
+├── HLA marker overlap
+├── Age difference factor
+├── Patient urgency score
+├── Wait time on list
+└── Geography / proximity
+→ Ranks best-matched recipients
+                    ↓
+                    ├──→ [Cross-hospital] Searches network if no local match
+                    ↓
+         ┌──────────────────┐
+         │   Match found?   │ ← AI / System decides
+         └──────────────────┘
+          /                   \
+        No                    Yes
+         ↓                     ↓
+   Waitlist              (proceed to Flow 4)
+   Monitor & re-run
+   periodically
+```
+
+#### Flow 4 — Medical Review + Legal Approval + Surgery (Updated per new workflow)
+
+```
+STEP 1 — DOCTOR confirms match to patient:
+                    ↓
+Doctor reviews AI ranked list
+├── Reviews compatibility factors (SHAP breakdown)
+├── Checks patient current health condition
+├── Checks if patient is fit for surgery today
+├── Obtains patient consent ✅
+├── Alerts surgical team ✅
+└── Clicks "Give Medical Approval" button
+                    ↓
+organ_requests:
+├── doctor_approved → true
+└── doctor_approved_at → timestamp
+
+─────────────────────────────────────────
+
+STEP 2 — ADMIN schedules transplant (Legal Confirmation):
+                    ↓
+Admin verifies:
+├── Donor consent document on file ✅
+├── Government ID verified ✅
+├── Independent evaluation done ✅ (living donor)
+│   OR brain death certificate + family consent ✅ (deceased)
+└── All legal documents complete ✅
+                    ↓
+Admin clicks "Confirm Match" / Schedules transplant:
+├── OT booked ✅
+├── Logistics & transport arranged ✅
+└── organ_requests: admin_confirmed → true, status → "matched"
+                    ↓
+
+─────────────────────────────────────────
+
+STEP 3 — DOCTOR performs transplant surgery:
+                    ↓
+Doctor: transplant surgery
+└── Post-op immunosuppression started
+                    ↓
+AI: monitors post-op patient
+├── Rejection risk score computed
+└── Alerts if anomaly detected
+                    ↓
+Patient outcome & follow-up
+└── Doctor logs recovery; donor thanked
+```
+
+#### Flow 5 — Live Notification & Post Surgery
+
+```
+Both doctor_approved AND admin_confirmed → match confirmed ✅
+                    ↓
+WebSocket fires: organ:matched event
+{
+  request_id,
+  donor_id,
+  patient_id,
+  organ_type: "kidney",
+  compatibility_score: 85
+}
+                    ↓
+Live updates across hospital:
+├── 👨‍⚕️ Doctor → "Match confirmed for Patient #203" ✅
+├── 🏥 Admin  → Request moves to "Matched" queue ✅
+└── 🙋 Patient → "A kidney match has been found for you" ✅
+                    ↓
+Surgery completed:
+Doctor updates → organ_requests status: "transplanted"
+Admin updates → organ_donors status: "expired"
+Full audit trail saved permanently
+```
+
+#### Complete Organ Status Journey
+
+```
+DONOR STATUS:              PATIENT REQUEST STATUS:
+
+registered                 doctor submits request
+    ↓                            ↓
+active  ←────────────── waiting  (AI priority queue)
+    ↓                            ↓
+matched ←── AI + doctor + admin ──→ matched
+    ↓                            ↓
+expired                    transplanted (post surgery)
+```
+
+---
+
+### 🖥️ ADMIN CENTRAL DASHBOARD (New — per updated workflow)
+
+The admin dashboard provides a unified real-time view of all hospital operations, with three core panels and cross-cutting admin functions.
+
+#### Dashboard Panels
+
+```
+┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+│  Blood Inventory    │  │   Organ Waitlist     │  │  Alerts & Reports   │
+│  Live stock per     │  │  Priority queue by   │  │  Low blood ·        │
+│  blood type         │  │  AI score            │  │  Urgent organ       │
+│  Expiry & usage     │  │  Cross-hospital      │  │  Audit trail        │
+│  trend              │  │  status              │  │  & logs             │
+└─────────────────────┘  └─────────────────────┘  └─────────────────────┘
+```
+
+#### Admin: Manage Users & Access
+
+```
+Admin: manage users & access
+└── Create / edit Doctor, Patient, Donor accounts
+```
+
+#### AI: Generates Summary Report
+
+```
+AI: generates summary report
+├── Monthly blood use statistics
+├── Transplant outcomes & stats
+└── Critical alerts history
+```
+
+---
+
+## 7. Legal & Compliance Layer
+
+| Legal Requirement | How System Handles It |
+|---|---|
+| Donor must give written consent | `consent_signed` boolean + `consent_document_url` in DB |
+| Blood must be lab-tested before use | `lab_test_status` field — only `cleared` units added to inventory |
+| 90-day gap between blood donations | System calculates next eligible date, blocks re-registration; donor card issued |
+| Living organ donor needs independent evaluation | `independent_evaluation_done` field required before status = active |
+| Brain death must be certified by 2 doctors | `brain_death_certified` field required for deceased donor |
+| Family consent for deceased donor | `family_consent` field required |
+| Doctor must approve organ match medically | `doctor_approved` + `doctor_approved_at` required before admin can confirm |
+| Admin confirms legal documents before finalizing | `admin_confirmed` — second step after doctor approval; OT booking & logistics logged |
+| Every unit traceable from donor to patient | `blood_donations.used_in_request_id` links donation to request |
+| Cross-match confirmation before blood release | Admin confirms cross-match before unit is issued to ward |
+| Patient data is private | RBAC enforced — patients see only their own data |
+| All actions logged | Full `audit_logs` table with actor, action, timestamp |
+| Sensitive data encrypted | Patient `diagnosis` field encrypted with AES-256-CBC |
+| Post-transplant monitoring required | AI rejection risk score computed; anomaly alerts fire if vitals deviate |
+
+---
+
+## 8. Member 1 — Frontend Developer Roadmap
+
+**Owns**: All UI/UX — pages, components, real-time updates, charts, forms
 **Never touches**: API business logic, ML model code, database schema, cloud infra
 **Timeline**: 8 Weeks
 
@@ -303,33 +632,29 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 1** | `npm create vite@latest frontend -- --template react-ts` → `cd frontend` → `npm install` → verify app runs on `localhost:3000` | React 18 + TypeScript app boots |
-| **Week 1** | `npm install -D tailwindcss postcss autoprefixer` → `npx tailwindcss init -p` → configure `tailwind.config.ts` with content paths | Tailwind CSS working, utility classes apply |
-| **Week 1** | `npm install react-router-dom@6 zustand @tanstack/react-query axios socket.io-client` | All core dependencies installed |
-| **Week 1** | `lib/axios.ts` — create Axios instance with `baseURL: import.meta.env.VITE_API_BASE_URL` + request interceptor that injects `Authorization: Bearer <token>` from Zustand store | All API calls automatically carry JWT |
-| **Week 1** | `lib/socket.ts` — create Socket.io-client singleton: `io(import.meta.env.VITE_SOCKET_URL, { autoConnect: false })` | Socket client ready to connect on auth |
-| **Week 1** | `store/auth.ts` — Zustand store: `{ user, token, role, login(token, user), logout() }`, persist token to `localStorage` | Auth state survives page refresh |
-| **Week 1** | `hooks/useAuth.ts` — exposes `user`, `role`, `isAuthenticated`, `login()`, `logout()` | Auth hook usable in any component |
-| **Week 1** | `components/layout/PrivateRoute.tsx` — checks `isAuthenticated`; redirects to `/login` if false | Protected pages redirect unauthenticated users |
-| **Week 1** | Build reusable component library: `Button`, `Modal`, `Card`, `Badge`, `Table`, `AlertBanner`, `Skeleton` in `components/ui/` | Shared components ready for all pages |
+| **Week 1** | `npm create vite@latest frontend -- --template react-ts` → install deps: `react-router-dom zustand @tanstack/react-query axios socket.io-client` | React 18 + TypeScript boots on localhost:3000 |
+| **Week 1** | Install Tailwind: `npm install -D tailwindcss postcss autoprefixer` → `npx tailwindcss init -p` | Tailwind utility classes working |
+| **Week 1** | `lib/axios.ts` — Axios instance with `baseURL: VITE_API_BASE_URL` + request interceptor injecting `Authorization: Bearer <token>` | All API calls carry JWT automatically |
+| **Week 1** | `lib/socket.ts` — Socket.io-client singleton: `io(VITE_SOCKET_URL, { autoConnect: false })` | Socket client ready |
+| **Week 1** | `store/auth.ts` — Zustand: `{ user, token, role, login(), logout() }` persisted to localStorage | Auth state survives page refresh |
+| **Week 1** | `components/layout/PrivateRoute.tsx` — checks `isAuthenticated`, redirects to `/login` if false | Protected routes block unauthenticated access |
+| **Week 1** | Build base component library: `Button, Modal, Card, Badge, Table, AlertBanner, Skeleton` | Shared components ready for all pages |
 
-✅ **Week 1 Checkpoint**: App boots on `localhost:3000`. Auth store persists token. PrivateRoute blocks unauthenticated access. Component library ready.
+✅ **Week 1 Checkpoint**: App boots. Auth store persists token. PrivateRoute works. Component library ready.
 
 ---
 
-### Phase 1 — Auth & Hospital Dashboard (Week 2)
+### Phase 1 — Auth & Dashboard (Week 2)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 2** | `app/(auth)/login/page.tsx` — email + password form, calls `POST /auth/login`, stores token via `auth.login()`, redirects to `/dashboard` | Login page submits and redirects on success |
-| **Week 2** | `app/(auth)/register/page.tsx` — name, email, password, role selector (`doctor / nurse / patient`), hospital dropdown, calls `POST /auth/register` | Registration flow complete |
-| **Week 2** | `components/layout/Sidebar.tsx` — role-based nav links: doctor sees Blood / Organs / Requests; admin sees all + Admin panel; patient sees only Requests | Sidebar shows correct links per role |
-| **Week 2** | `components/layout/Navbar.tsx` — hospital name, logged-in user name, logout button, notification bell icon linking to `NotificationCenter` | Top navigation renders with user info |
-| **Week 2** | `app/dashboard/page.tsx` — 3 stat cards: Blood Shortage Alerts, Pending Organ Requests, Total Active Requests; fetches `GET /hospitals/:id/stats` with React Query (`staleTime: 30000`) | Dashboard shows live hospital stats |
-| **Week 2** | `components/layout/NotificationCenter.tsx` — slide-out tray; stores alerts in Zustand `notifications` store; badge count on bell icon | Notification tray opens/closes with badge count |
-| **Week 2** | Hospital selector dropdown on dashboard (admin only) — `GET /hospitals` populates list; switching hospital updates all React Query cache keys | Admin can switch between hospitals |
+| **Week 2** | `app/(auth)/login/page.tsx` — email + password → `POST /auth/login` → stores token → redirects to `/dashboard` | Login flow complete |
+| **Week 2** | `app/(auth)/register/page.tsx` — name, email, password, role selector (doctor/nurse/admin/donor/patient), hospital dropdown → `POST /auth/register` | Registration complete |
+| **Week 2** | `components/layout/Sidebar.tsx` — role-based nav: doctor sees Blood/Organs/Requests; admin sees all + Admin panel; patient sees only Requests; donor sees Donations | Correct nav per role |
+| **Week 2** | `app/dashboard/page.tsx` — 3 stat cards: Blood Shortage Alerts, Pending Organ Requests, Total Active Requests | Dashboard shows live hospital stats |
+| **Week 2** | `components/layout/NotificationCenter.tsx` — slide-out tray, Zustand `notifications` store, badge count on bell icon | Notification tray with badge count |
 
-✅ **Week 2 Checkpoint**: Login → dashboard flow works end-to-end. Stats cards show real data from backend.
+✅ **Week 2 Checkpoint**: Login → dashboard flow works. Stats cards show real data.
 
 ---
 
@@ -337,35 +662,39 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 3** | `app/blood/page.tsx` — fetches `GET /blood/inventory/:hospitalId` → renders `BloodTypeCard` grid (2×4 layout, one card per blood type) | Blood inventory page renders all 8 types |
-| **Week 3** | `components/ui/BloodTypeCard.tsx` — props: `{ bloodType, unitsAvailable, minThreshold, expiryDate }`; shortage badge: green (safe), yellow (low: < 2× threshold), red (critical: < threshold) | Cards display correct shortage status |
-| **Week 3** | `components/forms/BloodRequestForm.tsx` — blood type selector, units input (min 1), urgency dropdown (`critical/high/medium/low`), patient ID field; calls `POST /blood/requests`; success toast on submit | Doctor can submit blood request |
-| **Week 3** | `app/organs/page.tsx` — fetches `GET /organs/donors` → renders `OrganCard` list for 6 organ types (kidney, liver, heart, lungs, cornea, pancreas) | Organ page renders donor availability |
-| **Week 3** | `components/ui/OrganCard.tsx` — props: `{ organType, donorCount, pendingRequests }`; availability badge; "Request" button opens `OrganRequestForm` modal | Each organ card shows count + request button |
-| **Week 3** | `components/forms/OrganRequestForm.tsx` — organ type (pre-filled), urgency score slider (0–100), patient details; calls `POST /organs/requests`; closes modal on success | Organ request submits and modal closes |
-| **Week 3** | `app/requests/page.tsx` — fetches all pending requests (blood + organ); tabbed view; status badges (`pending/approved/fulfilled/rejected`) | Unified requests view shows all active requests |
+| **Week 3** | `app/blood/page.tsx` — fetches `GET /blood/inventory/:hospitalId` → renders `BloodTypeCard` grid (2×4, one per blood type) | Blood inventory page with all 8 types |
+| **Week 3** | `components/ui/BloodTypeCard.tsx` — shortage badge: 🟢 safe / 🟡 low / 🔴 critical based on `min_threshold` | Cards show correct shortage status |
+| **Week 3** | `components/forms/BloodDonorForm.tsx` (admin only) — donor name, age, blood type, government ID, consent checkbox → `POST /blood/donors` | Admin can register blood donor |
+| **Week 3** | `components/forms/BloodRequestForm.tsx` (doctor/nurse) — patient selector, blood type, units, urgency, clinical reason → `POST /blood/requests` | Doctor can submit blood request |
+| **Week 3** | `app/organs/page.tsx` — organ donor registry + organ type availability cards | Organ page renders donor availability |
+| **Week 3** | `components/forms/OrganDonorForm.tsx` (admin only) — donor type selector (living/deceased), organs available, HLA markers, consent fields → `POST /organs/donors` | Admin can register organ donor |
+| **Week 3** | `components/forms/OrganRequestForm.tsx` (doctor only) — organ type, urgency slider 0–100, patient selector, clinical notes → `POST /organs/requests` | Doctor can submit organ request |
+| **Week 3** | `app/requests/page.tsx` — tabbed view: blood requests + organ requests; status badges; AI priority badges (P1–P4) | Unified requests view |
 
-✅ **Week 3 Checkpoint**: Doctor can view blood inventory, submit blood request, view organ donors, and submit organ request. All forms validate and submit.
+✅ **Week 3 Checkpoint**: Doctor can view blood inventory, submit requests. Admin can register donors. All forms validate and submit.
 
 ---
 
-### Phase 3 — Real-time Updates & AI Widgets (Week 4–5)
+### Phase 3 — Real-Time Updates & AI Widgets (Week 4–5)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 4** | `hooks/useSocket.ts` — on mount: `socket.connect()`, `socket.emit('join-hospital', hospitalId)`; on unmount: `socket.disconnect()`; returns `socket` instance | Socket connects/disconnects cleanly with component lifecycle |
-| **Week 4** | Wire `blood:update` event in `BloodTypeCard.tsx` → on receive `{ blood_type, units_available, shortage_alert }` → update Zustand `resources` store → card re-renders without page refresh | Blood units update live without page refresh |
-| **Week 4** | Wire `organ:matched` event → push toast: "Organ match confirmed for request #ID" → update request status badge in `/requests` page instantly | Organ match event triggers UI update |
-| **Week 4** | Wire `alert:critical` event → push `{ type, message }` to Zustand `notifications` store → toast appears + bell badge increments | Critical shortage alerts show as toast notifications |
-| **Week 4** | Add "Last updated: X seconds ago" badge on blood page — updates every second using `setInterval` | Users can see blood data freshness |
-| **Week 5** | `components/charts/BloodForecastChart.tsx` — Recharts `LineChart`; x-axis: next 7 days, y-axis: predicted units; fetches `POST /ai/blood/forecast` via React Query; upper/lower confidence bands as shaded area | Forecast chart renders on blood page |
-| **Week 5** | Add AI shortage risk pill to `BloodTypeCard.tsx` — reads `shortage_risk` from forecast response; pill colors: grey (LOW), yellow (MEDIUM), orange (HIGH), red (CRITICAL) | Each blood card shows AI risk level |
-| **Week 5** | `components/charts/CompatibilityRankList.tsx` — inside organ request detail modal; ranked recipient list; each row: patient name, `compatibility_score` bar (0–100), expand button | Organ match ranked list renders in modal |
-| **Week 5** | `components/ui/FactorCard.tsx` — props: `{ factors: [{name, value, impact}] }`; renders SHAP factor breakdown as horizontal bar chart; shown on expand in `CompatibilityRankList` | SHAP factor breakdown visible per recipient |
-| **Week 5** | `app/admin/page.tsx` — `PriorityQueue` table: all active requests sorted by `ai_priority_score` desc; columns: type, patient, urgency level (P1–P4 badge), score, wait time | Admin sees AI-ranked priority queue |
-| **Week 5** | Add React Query `refetchInterval: 300000` (5 min) on all AI widgets — stale predictions refresh automatically | AI data stays current without manual reload |
+| **Week 4** | `hooks/useSocket.ts` — on mount: `socket.connect()` + `socket.emit('join-hospital', hospitalId)`; on unmount: `socket.disconnect()` | Socket connects/disconnects with component lifecycle |
+| **Week 4** | Wire `blood:update` event → update Zustand `resources` store → `BloodTypeCard` re-renders without page refresh | Blood units update live |
+| **Week 4** | Wire `organ:matched` event → toast + request status badge updates instantly in `/requests` | Organ match triggers live UI update |
+| **Week 4** | Wire `alert:critical` event → push to Zustand `notifications` → toast appears + bell badge increments | Critical alerts show as toast |
+| **Week 5** | `components/charts/BloodForecastChart.tsx` — Recharts `LineChart`; 7-day forecast; confidence bands as shaded area | Forecast chart renders on blood page |
+| **Week 5** | AI shortage risk pill on `BloodTypeCard.tsx` — reads `shortage_risk` from forecast; grey/yellow/orange/red | Each blood card shows AI risk level |
+| **Week 5** | `components/ui/CrossHospitalBanner.tsx` — shown when local stock unavailable; lists hospitals with available stock + transfer action | Cross-hospital search result displayed |
+| **Week 5** | `components/charts/CompatibilityRankList.tsx` — ranked donor list inside organ request modal; score bar per candidate; cross-hospital badge if donor is from another hospital | Organ match ranked list renders with source hospital |
+| **Week 5** | `components/ui/FactorCard.tsx` — SHAP factor breakdown as horizontal bar chart per candidate | Factor breakdown visible per match |
+| **Week 5** | `app/admin/page.tsx` — Priority Queue table: all requests sorted by `ai_priority_score` desc; P1–P4 badge; approve/reject buttons | Admin sees AI-ranked priority queue |
+| **Week 5** | Organ match modal — THREE STEP approval UI: "Give Medical Approval" (doctor) → "Confirm & Schedule" (admin, with OT booking form) — each only visible to correct role | Three-step legal approval UI works |
+| **Week 5** | `components/ui/PostOpMonitor.tsx` — rejection risk score badge + anomaly alert banner on transplanted patient's record | AI post-op monitoring visible to doctor |
+| **Week 5** | `components/ui/DonorCard.tsx` — displayed after donation cleared; shows next eligible date | Donor card shown on donation confirmation |
+| **Week 5** | `app/admin/reports/page.tsx` — AI summary report view: monthly blood use chart, transplant stats table, critical alerts log | Admin can view AI-generated monthly report |
 
-✅ **Week 5 Checkpoint**: Blood cards update live. Organ match events trigger status updates. Forecast chart, compatibility rank list, and priority queue all rendering with real AI data.
+✅ **Week 5 Checkpoint**: Blood cards update live. Forecast chart, cross-hospital banner, compatibility rank list, priority queue, and post-op monitor rendering with real AI data. Three-step organ approval flow working.
 
 ---
 
@@ -373,40 +702,36 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 6** | `npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom` → configure `vitest.config.ts` | Test runner configured |
-| **Week 6** | `BloodRequestForm.test.tsx` — test: required fields show error when empty; units must be > 0; submit calls `POST /blood/requests` with correct body | Form validation tests pass |
-| **Week 6** | `BloodTypeCard.test.tsx` — test: renders correct shortage badge class for safe / low / critical thresholds | BloodTypeCard badge logic tested |
-| **Week 6** | `useSocket.test.ts` — test: socket connects on mount; disconnects on unmount; `blood:update` event updates store | Socket hook lifecycle tested |
-| **Week 6** | `npm install -D @playwright/test` → `npx playwright install` → E2E: login → blood page → submit request → assert request appears in `/requests` tab | Blood request E2E test passes |
-| **Week 6** | Playwright E2E: login → organs page → open organ request → assert compatibility ranked list loads with at least 1 result | Organ match E2E test passes |
-| **Week 7** | Mobile responsiveness pass: all pages usable on 375px width (iPhone SE); fix wrapping issues in `BloodTypeCard` grid | App usable on mobile |
-| **Week 7** | Accessibility audit: add `aria-label` to all icon buttons; ensure color contrast ≥ 4.5:1 for shortage badges; keyboard tab order on all forms | Lighthouse accessibility > 90 |
-| **Week 7** | Replace all raw data fetches with skeleton loaders (`components/ui/Skeleton.tsx`) while React Query `isLoading` is true | No blank page flashes during data load |
-| **Week 7** | Add empty state components: "No blood requests yet", "No donors registered" with illustrative icons | No blank white boxes in empty state |
-| **Week 7** | Add `ErrorBoundary` wrapper around each page — catches runtime errors, shows "Something went wrong" card with retry button | App doesn't white-screen on component error |
+| **Week 6** | Install Vitest: `npm install -D vitest @testing-library/react jsdom` | Test runner configured |
+| **Week 6** | `BloodRequestForm.test.tsx` — required fields show error; units > 0 enforced; submit calls correct endpoint | Form validation tests pass |
+| **Week 6** | `BloodTypeCard.test.tsx` — correct shortage badge for safe/low/critical thresholds | Card badge logic tested |
+| **Week 6** | Playwright E2E: login → blood page → submit request → assert appears in requests tab | Blood request E2E test passes |
+| **Week 7** | Mobile responsiveness: all pages usable at 375px width | App usable on mobile |
+| **Week 7** | Add skeleton loaders on all pages while React Query `isLoading` is true | No blank page flashes |
+| **Week 7** | Add empty state components: "No requests yet", "No donors registered" | No blank white boxes |
+| **Week 7** | `ErrorBoundary` on each page — "Something went wrong" card with retry button | App doesn't white-screen on error |
 
-✅ **Week 7 Checkpoint**: 80%+ component coverage. Both E2E tests pass. Lighthouse accessibility > 90. No layout breaks on mobile. Skeleton loaders on all pages.
+✅ **Week 7 Checkpoint**: Tests pass. Mobile responsive. Skeleton loaders on all pages.
 
 ---
 
-### Phase 5 — Production Launch (Week 8)
+### Phase 5 — Production (Week 8)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 8** | `npm install -D rollup-plugin-visualizer` → `npx vite-bundle-visualizer` → lazy-load heavy routes with `React.lazy(() => import('./page'))` + `<Suspense>` | Bundle size reduced; heavy routes load on demand |
-| **Week 8** | Update `frontend/.env.production` — set `VITE_API_BASE_URL` and `VITE_SOCKET_URL` to production URLs provided by M4 | Frontend points to production backend |
-| **Week 8** | Run `npm run build` → verify no TypeScript errors → check `dist/` output → deploy to Vercel or Netlify | Production build compiles clean |
-| **Week 8** | Run Lighthouse audit on production URL: Performance > 85, Accessibility > 90, Best Practices > 90 | Lighthouse scores pass on prod |
-| **Week 8** | Smoke test full flow on production URL: register → login → submit blood request → submit organ request → verify WebSocket blood update fires | Zero broken flows on production |
+| **Week 8** | Lazy-load heavy routes with `React.lazy()` + `<Suspense>` | Bundle size reduced |
+| **Week 8** | Update `.env.production` with production URLs from M4 | Frontend points to production backend |
+| **Week 8** | `npm run build` → verify no TypeScript errors → deploy to Vercel | Production build live |
+| **Week 8** | Smoke test full flow on production URL | Zero broken flows on production |
 
-✅ **Week 8 Checkpoint**: Production UI live. Lighthouse scores pass. All flows verified end-to-end on production URL.
+✅ **Week 8 Checkpoint**: Production UI live. All flows verified.
 
 ---
 
-## 7. Member 2 — Backend Developer Roadmap
+## 9. Member 2 — Backend Developer Roadmap
 
-**Owns**: All REST APIs, database schema + migrations, JWT auth, WebSocket server, Redis caching, AI service proxy
-**Never touches**: React components, ML model training, Dockerfile configs, cloud infra provisioning
+**Owns**: All REST APIs, database schema + migrations, JWT auth, WebSocket server, Redis caching, AI proxy
+**Never touches**: React components, ML model training, Dockerfile configs, cloud infra
 **Timeline**: 8 Weeks
 
 ---
@@ -415,110 +740,102 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 1** | `mkdir backend && cd backend` → `npm init -y` → `npm install express cors helmet dotenv bcryptjs jsonwebtoken zod` → `npm install -D typescript ts-node nodemon @types/express @types/node` | Node.js + Express project initialized |
-| **Week 1** | `npm install @prisma/client` → `npx prisma init` → write full `prisma/schema.prisma` — all 7 models: `Hospital, User, Patient, BloodInventory, BloodRequest, OrganDonor, OrganRequest, AuditLog` | Full DB schema defined |
-| **Week 1** | `npx prisma migrate dev --name init` — run initial migration against local PostgreSQL (from M4's docker-compose) | All 7 tables created in DB |
-| **Week 1** | `src/index.ts` — Express app init, CORS config, Helmet headers, JSON body parser, mount routes, `GET /health` returning `{ status: "ok", db: "connected", timestamp }` | Backend boots on `localhost:4000`; `/health` returns 200 |
-| **Week 1** | `src/middleware/auth.ts` — `verifyToken(req, res, next)`: extract Bearer token, `jwt.verify()`, attach `req.user = { id, role, hospitalId }`; return 401 on invalid/missing token | JWT middleware protects routes |
-| **Week 1** | `src/middleware/validate.ts` — generic `validate(schema: ZodSchema)` middleware factory; parses `req.body`; returns 400 with field errors on failure | Zod validation wired to all routes |
-| **Week 1** | `src/routes/auth.ts` — `POST /auth/register` (bcrypt 12 rounds, create User, return JWT) and `POST /auth/login` (compare hash, sign JWT with `{ id, role, hospitalId }`, 7d expiry) | Auth endpoints return valid JWTs |
-| **Week 1** | `src/services/aiClient.ts` — stub: 3 async functions `getBloodForecast()`, `getOrganMatch()`, `getPriorityScore()` returning hardcoded mock JSON | AI client functions callable immediately by M1 |
+| **Week 1** | `npm init -y` → install: `express cors helmet dotenv bcryptjs jsonwebtoken zod prisma @prisma/client ioredis axios` | Node.js + Express initialized |
+| **Week 1** | `npx prisma init` → write full `prisma/schema.prisma` — all models including corrected `OrganDonor` (with donor_type, consent_signed, government_id) and `BloodDonation` (new table) and `OrganRequest` (with doctor_approved, admin_confirmed) | Full corrected DB schema defined |
+| **Week 1** | `npx prisma migrate dev --name init` | All tables created in PostgreSQL |
+| **Week 1** | `src/index.ts` — Express app, CORS, Helmet, JSON parser, mount routes, `GET /health` | Backend boots on localhost:4000 |
+| **Week 1** | `src/middleware/auth.ts` — `verifyToken()`: extract Bearer token, `jwt.verify()`, attach `req.user = { id, role, hospitalId }` | JWT middleware protects all routes |
+| **Week 1** | `src/middleware/validate.ts` — Zod schema validation middleware factory | Input validation on all routes |
+| **Week 1** | `src/routes/auth.ts` — `POST /auth/register` + `POST /auth/login` | Auth endpoints return valid JWTs |
+| **Week 1** | `src/services/aiClient.ts` — 3 stub functions: `getBloodForecast()`, `getOrganMatch()`, `getPriorityScore()` returning mock JSON | AI stubs callable by M1 immediately |
 
-✅ **Week 1 Checkpoint**: Backend boots on `localhost:4000`. Register + login return JWTs. `/health` returns 200. AI stubs callable.
+✅ **Week 1 Checkpoint**: Backend boots on localhost:4000. Register + login return JWTs. AI stubs ready.
 
 ---
 
-### Phase 1 — Hospital, Blood & Organ APIs (Week 2–3)
+### Phase 1 — Blood & Organ APIs (Week 2–3)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 2** | `src/routes/hospitals.ts` — `GET /hospitals`: Prisma `findMany`; `GET /hospitals/:id/stats`: 2 parallel queries — blood summary (units + shortage flags per type), organ summary (pending count per organ type) | Hospital list + stats endpoints live |
-| **Week 2** | `npm install ioredis` → `src/services/redis.ts` — Redis client singleton; export `get(key)`, `set(key, value, ttl)`, `del(key)` helpers | Redis client connected |
-| **Week 2** | `src/middleware/cache.ts` — `cacheMiddleware(ttl)` — checks Redis; if hit returns cached JSON; if miss calls `next()` and caches response → apply `cacheMiddleware(60)` to `GET /hospitals/:id/stats` | Stats queries cached in Redis |
-| **Week 2** | `prisma/seed.ts` — seed 3 hospitals, full blood inventory (8 types × 3 hospitals × 20 units), 20 organ donors, 5 test users (1 admin, 2 doctors, 1 nurse, 1 patient); run via `npx prisma db seed` | DB seeded with enough demo data for all pages |
-| **Week 3** | `src/routes/blood.ts` — `GET /blood/inventory/:hospitalId`: compute `shortageAlert: units < minThreshold`; return 8 types with shortage flag | Blood inventory endpoint returns shortage status |
-| **Week 3** | `POST /blood/inventory/update` — role guard: `admin` only; Prisma `update` units + `last_restocked`; invalidate Redis cache; emit `blood:update` WebSocket event | Admin restocks blood; cache clears; WS fires |
-| **Week 3** | `POST /blood/requests` — Zod schema: `{ blood_type, units_required (min 1), urgency, patient_id }`; Prisma `create`; write `audit_logs`; return `{ id, status: "pending" }` | Blood request saved with audit log |
-| **Week 3** | `GET /blood/requests/pending/:hospitalId` — Prisma `findMany` where `status: "pending"`, include patient + doctor names | Pending blood requests list live |
-| **Week 3** | `PATCH /blood/requests/:id` — role guard: `admin/doctor`; updates status; on `fulfilled`: decrement inventory; emit `blood:update` WS event | Status update triggers inventory change and WS event |
-| **Week 3** | `src/routes/organs.ts` — `GET /organs/donors`: active donors grouped by organ type count; `POST /organs/donors`: admin registers donor; `POST /organs/requests`: creates request with audit log | All organ CRUD endpoints live |
-| **Week 3** | `GET /organs/requests/match/:requestId` — fetch request + patient → call `aiClient.getOrganMatch()` → cache result 30min in Redis → return ranked list | Organ match proxy returns AI-ranked list |
+| **Week 2** | `GET /hospitals` + `GET /hospitals/:id/stats` — blood summary + organ summary | Hospital stats endpoint live |
+| **Week 2** | Redis client singleton → `src/middleware/cache.ts` → apply `cacheMiddleware(60)` to stats | Stats cached in Redis |
+| **Week 2** | `prisma/seed.ts` — 3 hospitals, blood inventory (8 types × 3 hospitals), 20 organ donors, 5 blood donors, 5 test users | DB seeded with demo data |
+| **Week 3** | `POST /blood/donors` (admin only) — register blood donor: validate government_id, check 90-day gap, create user + blood_donations record with `lab_test_status: pending` | Blood donor registration endpoint |
+| **Week 3** | `PATCH /blood/donors/:id/lab-result` (admin only) — update `lab_test_status` to `cleared` or `rejected`; on `cleared`: increment blood_inventory units_available | Lab result updates inventory |
+| **Week 3** | `GET /blood/inventory/:hospitalId` — 8 types with `shortage_alert: units < minThreshold` | Blood inventory with shortage flags |
+| **Week 3** | `POST /blood/requests` — role guard: `doctor/nurse`; Zod validate; create request + write audit_log; call `aiClient.getPriorityScore()` via `setImmediate` | Blood request saved + AI scored |
+| **Week 3** | `PATCH /blood/requests/:id` (admin) — approve: decrement inventory + link `blood_donations.used_in_request_id`; emit `blood:update` WS event | Approval deducts inventory, traces donation |
+| **Week 3** | `POST /organs/donors` (admin only) — validate consent fields; for living: require `independent_evaluation_done`; for deceased: require `brain_death_certified + family_consent` | Organ donor registration with legal checks |
+| **Week 3** | `POST /organs/requests` (doctor only) — create request with `clinical_notes`; `setImmediate` AI priority score | Organ request saved + AI scored |
+| **Week 3** | `GET /organs/requests/match/:requestId` — fetch request → call `aiClient.getOrganMatch()` → cache 30min → return ranked list | Organ match proxy returns AI-ranked list |
 
-✅ **Week 3 Checkpoint**: All blood + organ CRUD endpoints working. Blood inventory updates emit WebSocket events. Organ match proxy returns ranked list.
+✅ **Week 3 Checkpoint**: All blood + organ CRUD endpoints working. Donor registration with legal validation. Organ match proxy live.
 
 ---
 
-### Phase 2 — WebSocket & AI Proxy (Week 4–5)
+### Phase 2 — Two-Step Organ Approval + WebSocket (Week 4–5)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 4** | `npm install socket.io` → `src/services/socket.ts` — init Socket.io on Express HTTP server; `io.on('connection', socket => socket.join(socket.handshake.query.hospitalId))` | Socket.io initialized; clients join hospital rooms |
-| **Week 4** | After blood update → `io.to(hospitalId).emit('blood:update', { blood_type, units_available, shortage_alert })` | Blood restocks broadcast in real-time |
-| **Week 4** | After organ match confirmed → `io.to(hospitalId).emit('organ:matched', { request_id, donor_id, patient_id, compatibility_score })` | Organ match event broadcasts to hospital room |
-| **Week 4** | When blood units fall below `min_threshold` → `io.to(hospitalId).emit('alert:critical', { type: "blood_shortage", message, blood_type })` | Critical shortage alert broadcasts instantly |
-| **Week 4** | `npm install @socket.io/redis-adapter` → `io.adapter(createAdapter(pubClient, subClient))` | Socket.io scales across multiple backend instances |
-| **Week 5** | `src/services/aiClient.ts` — replace stubs with real `axios` calls: `getBloodForecast()` → `POST /ai/blood/forecast`; `getOrganMatch()` → `POST /ai/organ/match`; `getPriorityScore()` → `POST /ai/priority`; all 5s timeout | All 3 AI client functions proxy to Python service |
-| **Week 5** | AI fallback: `try { return await axios.post(...) } catch { const cached = await redis.get(cacheKey); if (cached) return JSON.parse(cached); return DEFAULT_SAFE_RESPONSE }` | Backend never crashes when AI service is down |
-| **Week 5** | `src/routes/ai.ts` — `POST /ai/blood/forecast`, `POST /ai/organ/match`, `POST /ai/priority` — validate body with Zod, proxy to `aiClient`, cache results (blood: 6h, organ: 30m) | AI proxy routes live with caching |
-| **Week 5** | On `POST /blood/requests` and `POST /organs/requests` — after saving, call `aiClient.getPriorityScore()` via `setImmediate` → update record with `ai_priority_score` + `ai_urgency_level` | All new requests auto-scored by AI in background |
+| **Week 4** | `PATCH /organs/requests/:id/doctor-approve` — role guard: `doctor`; sets `doctor_approved = true`; obtains patient consent flag; alerts surgical team via WS event | Doctor medical approval + consent endpoint |
+| **Week 4** | `PATCH /organs/requests/:id/confirm` — role guard: `admin`; checks `doctor_approved == true` first; sets `admin_confirmed = true`; saves OT booking details; updates status to `matched`; updates donor status to `matched`; emits `organ:matched` WS event | Admin legal confirmation + transplant scheduling (requires doctor approval first) |
+| **Week 4** | `PATCH /organs/requests/:id/transplant-complete` — role guard: `doctor`; updates status to `transplanted`; triggers AI post-op monitoring job | Surgery completion + post-op AI trigger |
+| **Week 4** | Socket.io init → clients join hospital room; emit `blood:update` on inventory change; emit `organ:matched` on confirmed match; emit `alert:critical` when units < `min_threshold`; emit `postop:alert` on AI anomaly detection | All 4 WebSocket events live |
+| **Week 5** | Replace AI stubs with real axios calls → all endpoints with 5s timeout + fallback to Redis cache | Real AI proxy live |
+| **Week 5** | AI fallback: `try { await axios.post(...) } catch { return redis.get(cacheKey) ?? DEFAULT_SAFE_RESPONSE }` | Backend never crashes if AI is down |
+| **Week 5** | `GET /blood/cross-hospital/:bloodType` — queries other hospitals in network for available stock; returns ranked list by proximity + availability | Cross-hospital blood search endpoint |
+| **Week 5** | `GET /organs/cross-hospital/match/:requestId` — extends organ match to search donors across network hospitals | Cross-hospital organ match endpoint |
+| **Week 5** | `GET /admin/reports/summary` — calls AI summary endpoint; returns monthly blood use, transplant stats, alert history | AI summary report endpoint |
 
-✅ **Week 5 Checkpoint**: WebSocket events emit on blood/organ updates. All 3 AI proxy routes return real data. Fallback serves cache/default when AI is down.
+✅ **Week 5 Checkpoint**: Three-step organ approval working. WebSocket events emitting. Real AI proxy live with fallback. Cross-hospital search endpoints live.
 
 ---
 
-### Phase 3 — Testing & Security (Week 6–7)
+### Phase 3 — Security & Testing (Week 6–7)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 6** | `npm install -D jest supertest @types/jest ts-jest` → configure `jest.config.ts` with `ts-jest` preset | Jest test runner configured |
-| **Week 6** | `tests/auth.test.ts` — `POST /auth/register`: valid body returns token; duplicate email returns 409; missing fields return 400. `POST /auth/login`: correct creds return token; wrong password returns 401 | Auth tests pass |
-| **Week 6** | `tests/blood.test.ts` — `GET /blood/inventory/:id`: returns 8 types each with `shortageAlert` boolean; `POST /blood/requests` with invalid `blood_type` returns 400 | Blood endpoint tests pass |
-| **Week 6** | `tests/organs.test.ts` — `POST /organs/requests`: valid body returns 201 with `{ id, status: "pending" }`; missing `organ_type` returns 400 | Organ request tests pass |
-| **Week 7** | `npm install express-rate-limit` → apply: `100 req / 15 min` on `/auth/*`; `500 req / 15 min` on authenticated routes | Rate limiting returns 429 on exceed |
-| **Week 7** | Audit all routes: every `POST` / `PATCH` has a Zod schema; no route accesses `req.body` without validation | Zero unvalidated inputs |
-| **Week 7** | `npm install swagger-jsdoc swagger-ui-express` → write JSDoc `@swagger` comments on all routes → `GET /api/docs` serves Swagger UI | API docs live at `/api/docs` |
-| **Week 7** | Patient diagnosis fields: encrypt `diagnosis` with AES-256-CBC before Prisma `create`; decrypt on `findUnique` | Sensitive patient data encrypted |
+| **Week 6** | Jest + Supertest tests: auth, blood inventory, blood donor registration, organ donor registration, two-step organ approval flow | All route tests pass |
+| **Week 7** | Rate limiting: 100 req/15min on `/auth/*`; 500 req/15min on authenticated routes | Rate limiting returns 429 on exceed |
+| **Week 7** | Encrypt `patients.diagnosis` with AES-256-CBC before Prisma create; decrypt on findUnique | Patient data encrypted at rest |
+| **Week 7** | Swagger docs at `GET /api/docs` — all routes documented | API docs live |
 
-✅ **Week 7 Checkpoint**: All route tests pass. Swagger docs at `/api/docs`. Rate limiting active. No unvalidated inputs.
+✅ **Week 7 Checkpoint**: All tests pass. Security hardened. Swagger docs live.
 
 ---
 
-### Phase 4 — Production Deployment (Week 8)
+### Phase 4 — Production (Week 8)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 8** | Receive production Dockerfile from M4 → `docker build -t hospital-backend .` → verify image starts, `/health` returns 200 | Production Docker image builds successfully |
-| **Week 8** | Deploy to Railway or AWS ECS → set all env vars: `DATABASE_URL` (RDS), `REDIS_URL` (ElastiCache), `JWT_SECRET`, `AI_SERVICE_URL` (from M3) | Backend live on production infrastructure |
-| **Week 8** | `npx prisma migrate deploy` against production RDS → `npx prisma db seed` to populate demo data | Production DB migrated and seeded |
-| **Week 8** | Smoke test production: `POST /auth/login`, `GET /hospitals/:id/stats`, `GET /blood/inventory/:id`, WebSocket connect + receive `blood:update` | All production endpoints return correct responses |
-| **Week 8** | Set `AI_SERVICE_URL` to M3's production URL → re-test `POST /ai/blood/forecast` → verify real AI response | Backend AI proxy connected to production ML service |
+| **Week 8** | `npx prisma migrate deploy` + `npx prisma db seed` on production DB | Production DB migrated and seeded |
+| **Week 8** | Deploy to Railway/AWS ECS; set all env vars; smoke test all endpoints | Backend live on production |
 
-✅ **Week 8 Checkpoint**: Backend live on production. All smoke tests pass. AI proxy connected to production ML service. DB seeded.
+✅ **Week 8 Checkpoint**: Backend live. All smoke tests pass.
 
 ---
 
-## 8. Member 3 — AI/ML Engineer Roadmap
+## 10. Member 3 — AI/ML Engineer Roadmap
 
-**Owns**: Python FastAPI microservice, all 3 ML models, explainability layer, training pipelines, model evaluation
-**Never touches**: React components, Node.js route logic, database schema, cloud infra configs
+**Owns**: Python FastAPI microservice, all 3 ML models, SHAP explainability, training pipelines
+**Never touches**: React components, Node.js routes, database schema, cloud infra
 **Timeline**: 8 Weeks
 
 ---
 
-### Phase 0 — Setup & Foundation (Week 1)
+### Phase 0 — Setup & Schemas (Week 1)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 1** | `mkdir ml-service && cd ml-service` → `python -m venv venv` → `source venv/bin/activate` → `pip install fastapi uvicorn pydantic scikit-learn prophet pandas numpy shap joblib python-dotenv mlflow` | Python environment with all ML dependencies |
-| **Week 1** | `app/main.py` — FastAPI app init, CORS middleware, mount routers, `GET /health` returning `{ status: "ok", model_versions: { blood: "1.0", organ: "1.0", priority: "1.0" } }` | FastAPI boots on `localhost:8000`; `/health` returns 200 |
-| **Week 1** | `mlflow ui --port 5001` → verify MLflow tracking dashboard accessible → create experiment `hospital-resource-models` | MLflow tracking UI accessible |
-| **Week 1** | `app/schemas/blood.py` — `BloodForecastRequest(hospital_id, blood_type, historical_usage: List[UsagePoint])` + `BloodForecastResponse(blood_type, predicted_units_7d, shortage_risk, confidence, upper_bound, lower_bound)` | Blood forecast Pydantic schemas frozen |
-| **Week 1** | `app/schemas/organ.py` — `OrganMatchRequest(organ_type, donor: DonorSchema, candidates: List[CandidateSchema])` + `OrganMatchResponse(ranked: List[RankedCandidate])` where each `RankedCandidate` has `factors: List[FactorSchema]` | Organ match schemas frozen |
-| **Week 1** | `app/schemas/priority.py` — `PriorityRequest(request_type, urgency: int, wait_days: int, compatibility_score: float)` + `PriorityResponse(priority_score, urgency_level, explanation: List[FactorSchema])` | Priority schemas frozen |
-| **Week 1** | **Share all 3 schema files with M2 immediately** — M2 uses these to build `aiClient.ts` stub without waiting for models | M2 can start AI proxy integration |
-| **Week 1** | `training/generate_synthetic_data.py` → generate: 6-month daily blood usage (8 types × 3 hospitals) → `data/blood_history.csv`; 500 organ donor-recipient pairs with HLA markers + match outcomes → `data/organ_pairs.csv` | Training CSVs ready for both models |
+| **Week 1** | `python -m venv venv` → install: `fastapi uvicorn pydantic scikit-learn prophet pandas numpy shap joblib python-dotenv mlflow` | Python ML environment ready |
+| **Week 1** | `app/main.py` — FastAPI app, CORS, mount routers, `GET /health` → `{ status: "ok", model_versions }` | FastAPI boots on localhost:8000 |
+| **Week 1** | `app/schemas/blood.py` — `BloodForecastRequest` + `BloodForecastResponse` (predicted_units_7d, shortage_risk, confidence, upper_bound, lower_bound) | Blood schema frozen |
+| **Week 1** | `app/schemas/organ.py` — `OrganMatchRequest` (organ_type, donor, candidates[]) + `OrganMatchResponse` (ranked list with factors per candidate) | Organ schema frozen |
+| **Week 1** | `app/schemas/priority.py` — `PriorityRequest` (request_type, urgency, wait_days, compatibility_score) + `PriorityResponse` (priority_score, urgency_level P1–P4, explanation) | Priority schema frozen |
+| **Week 1** | **Share all 3 schema files with M2 immediately** — M2 builds aiClient.ts stubs from these | M2 can integrate without waiting |
+| **Week 1** | `training/generate_synthetic_data.py` → 6-month daily blood usage (8 types × 3 hospitals) → `blood_history.csv`; 500 organ donor-recipient pairs with HLA + outcomes → `organ_pairs.csv` | Training CSVs ready |
 
-✅ **Week 1 Checkpoint**: FastAPI boots on `localhost:8000`. All 3 schemas frozen and shared with M2. Synthetic training data generated. `/health` returns 200.
+✅ **Week 1 Checkpoint**: FastAPI boots. All 3 schemas frozen and shared with M2. Training data generated.
 
 ---
 
@@ -526,16 +843,15 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 2** | `training/train_blood_forecast.py` — load `blood_history.csv` → for each of 8 blood types: rename columns to `ds` + `y` → `model = Prophet(yearly_seasonality=True, weekly_seasonality=True)` → `model.fit(df_train)` | Prophet fits without errors for all 8 types |
-| **Week 2** | Add `shortage_risk` logic: `predicted > 2*threshold → "low"`; `> threshold → "medium"`; `> 0.5*threshold → "high"`; else `"critical"` | Risk levels compute correctly from thresholds |
-| **Week 2** | Confidence intervals: `upper_bound = yhat_upper`, `lower_bound = yhat_lower`; `confidence = 1 - (yhat_upper - yhat_lower) / yhat` | Confidence bands included in response |
-| **Week 2** | Evaluate: `mean_absolute_error` on 1-month held-out split per blood type → `mlflow.log_metric(f"MAE_{blood_type}", mae)` | MAE < 5 units per type logged to MLflow |
-| **Week 3** | `joblib.dump(model, f"models/blood_forecast_{blood_type.replace('+','pos').replace('-','neg')}.pkl")` — save all 8 models | 8 `.pkl` files saved in `models/` |
-| **Week 3** | `app/services/blood_forecast.py` — `predict_blood(req)`: load from `app.state.blood_models[req.blood_type]`, run `model.predict(future_df)`, extract 7-day forecast, return `BloodForecastResponse` | Service returns valid forecast response |
-| **Week 3** | `app/routers/blood.py` — `@router.post("/ai/blood/forecast", response_model=BloodForecastResponse)` → calls `blood_forecast.predict_blood(request)` | `POST /ai/blood/forecast` returns real predictions |
-| **Week 3** | Fallback: `if len(request.historical_usage) < 3: return BloodForecastResponse(predicted_units_7d=avg*1.2, confidence=0.4, shortage_risk="unknown", ...)` | Endpoint returns 200 with fallback on sparse data |
+| **Week 2** | `training/train_blood_forecast.py` — for each of 8 blood types: `Prophet(yearly_seasonality=True, weekly_seasonality=True).fit(df_train)` | Prophet trains on all 8 types |
+| **Week 2** | Shortage risk logic: `predicted > 2×threshold → "low"`, `> threshold → "medium"`, `> 0.5×threshold → "high"`, else `"critical"` | Risk levels compute correctly |
+| **Week 2** | Evaluate: MAE on 1-month held-out split → `mlflow.log_metric(f"MAE_{blood_type}", mae)` | MAE < 5 units per type in MLflow |
+| **Week 3** | Save all 8 models: `joblib.dump(model, f"models/blood_{blood_type}.pkl")` | 8 .pkl files saved |
+| **Week 3** | `app/services/blood_forecast.py` — load from `app.state.blood_models`, run `model.predict(future_df)`, return `BloodForecastResponse` | Service returns valid forecast |
+| **Week 3** | `POST /ai/blood/forecast` router → calls service → returns real predictions | Blood forecast endpoint live |
+| **Week 3** | Fallback: if `len(historical_usage) < 3` → return safe default response with `shortage_risk: "unknown"` | Sparse data handled gracefully |
 
-✅ **Week 3 Checkpoint**: `POST /ai/blood/forecast` returns `{ predicted_units_7d, shortage_risk, confidence, upper_bound, lower_bound }`. MAE < 5 units on test set.
+✅ **Week 3 Checkpoint**: `POST /ai/blood/forecast` returns `{ predicted_units_7d, shortage_risk, confidence, upper_bound, lower_bound }`. MAE < 5 units.
 
 ---
 
@@ -543,32 +859,32 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 3** | `training/train_organ_matcher.py` — load `organ_pairs.csv` → engineer features: `blood_type_compatible (0/1)`, `hla_overlap_count (0–3)`, `age_diff_abs`, `urgency_score_norm`, `wait_days_norm` | Feature matrix `X` and binary label `y` (match=1) ready |
-| **Week 4** | `RandomForestClassifier(n_estimators=100, max_depth=8, random_state=42, class_weight="balanced")` → `model.fit(X_train, y_train)` | Random Forest trained with balanced classes |
-| **Week 4** | Rule-based score per candidate: `blood_pts = 35 if compatible else 0`; `hla_pts = hla_overlap * 10`; `urgency_pts = urgency_score * 0.15`; `wait_pts = min(wait_days/365,1) * 10`; `total_score = sum of all` | Deterministic 0–100 compatibility score per candidate |
-| **Week 4** | SHAP: `explainer = shap.TreeExplainer(model)` → for each candidate: `sv = explainer.shap_values(X_candidate)[1]` → build `factors: [{ name, value, impact }]` | SHAP factor cards generated per candidate |
-| **Week 4** | Evaluate: `roc_auc_score(y_test, model.predict_proba(X_test)[:,1])` → `mlflow.log_metric("organ_auc", auc)` | AUC-ROC > 0.85 logged to MLflow |
-| **Week 5** | `joblib.dump(model, "models/organ_matcher.pkl")` → save | Organ model persisted to `models/` |
-| **Week 5** | `app/services/organ_matcher.py` — `match_organ(req)`: load model, compute rule score + SHAP per candidate, sort descending, return `OrganMatchResponse(ranked=[...])` | Organ matcher service returns ranked list |
-| **Week 5** | `app/routers/organ.py` — `@router.post("/ai/organ/match", response_model=OrganMatchResponse)` | `POST /ai/organ/match` returns ranked recipients with factor cards |
+| **Week 3** | Feature engineering from `organ_pairs.csv`: `blood_type_compatible (0/1)`, `hla_overlap_count (0–6)`, `age_diff_abs`, `urgency_score_norm`, `wait_days_norm`, `distance_km` (new: geography factor) | Feature matrix X and label y ready |
+| **Week 4** | `RandomForestClassifier(n_estimators=100, max_depth=8, class_weight="balanced").fit(X_train, y_train)` | Random Forest trained |
+| **Week 4** | Rule-based score per candidate: `blood_pts = 35 if compatible else 0`; `hla_pts = overlap × 5`; `urgency_pts = urgency × 0.2`; `wait_pts = min(wait_days/365,1) × 10`; `geo_pts = proximity factor`; total → 0–100 | 0–100 compatibility score with geography factor |
+| **Week 4** | Cross-hospital search logic: if no local donor scores ≥ threshold → query `organ_donors` across all hospitals in network; flag `is_cross_hospital: true` on results | Cross-hospital fallback in organ match |
+| **Week 4** | SHAP: `explainer = shap.TreeExplainer(model)` → per candidate: `sv = explainer.shap_values(X)[1]` → build `factors: [{name, value, impact}]` | SHAP explanations per candidate |
+| **Week 4** | Evaluate: `roc_auc_score(y_test, model.predict_proba(X_test)[:,1])` → MLflow log | AUC-ROC > 0.85 |
+| **Week 5** | Save model: `joblib.dump(model, "models/organ_matcher.pkl")` | Organ model persisted |
+| **Week 5** | `app/services/organ_matcher.py` + `POST /ai/organ/match` router | Organ match endpoint live with SHAP + cross-hospital |
+| **Week 5** | `app/services/postop_monitor.py` + `POST /ai/postop/monitor` — computes rejection risk score from post-op vitals; returns `{ rejection_risk, alert: bool, anomaly_details }` | Post-op monitoring endpoint live |
+| **Week 5** | `app/services/reports.py` + `POST /ai/reports/summary` — aggregates monthly blood usage, transplant outcomes, alert counts → structured summary JSON | AI summary report endpoint live |
 
-✅ **Week 5 Checkpoint**: `POST /ai/organ/match` returns ranked list with `compatibility_score` and SHAP `factors` per candidate. AUC-ROC > 0.85.
+✅ **Week 5 Checkpoint**: `POST /ai/organ/match` returns ranked list with cross-hospital results, SHAP `factors`, and `is_cross_hospital` flag. AUC-ROC > 0.85. Post-op monitor and summary report live.
 
 ---
 
-### Phase 3 — Priority Engine & Model Hardening (Week 5–6)
+### Phase 3 — Priority Engine & Hardening (Week 5–6)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 5** | `app/services/priority_engine.py` — `score = (req.urgency/10)*40 + min(req.wait_days/30,1)*30 + (req.compatibility_score/100)*30`; level: `>=90 → "P1"`, `>=70 → "P2"`, `>=50 → "P3"`, else `"P4"` | Priority scoring logic implemented |
-| **Week 5** | `explanation = [{ factor: "urgency", contribution: (req.urgency/10)*40 }, { factor: "wait_time", ... }, { factor: "compatibility", ... }]` | Factor contributions returned per request |
-| **Week 5** | `app/routers/priority.py` — `@router.post("/ai/priority", response_model=PriorityResponse)` | `POST /ai/priority` returns P1–P4 with explanation |
-| **Week 6** | Preload all models at startup: `@app.on_event("startup") async def load_models()` → load 8 blood models + organ model into `app.state` | Zero per-request disk I/O; models in memory at boot |
-| **Week 6** | Edge cases — blood: `historical_usage=[]` → fallback 200; organ: all same blood type → assert SHAP + urgency drives ranking; priority: min inputs → assert `"P4"` | All edge cases return 200 with correct response |
-| **Week 6** | Write `training/eval_report.md` — Blood MAE per type, Organ AUC-ROC + precision/recall, Priority score distribution on 100 sample requests | Eval report committed to repo |
-| **Week 6** | Add request logging middleware: `method`, `path`, `duration_ms`, `status_code` logged on every inference call | All inference calls logged with latency |
+| **Week 5** | `app/services/priority_engine.py` — `score = (urgency/10)×40 + min(wait_days/30,1)×30 + (compatibility/100)×30`; level: `≥90→P1`, `≥70→P2`, `≥50→P3`, else `P4` | Priority scoring logic implemented |
+| **Week 5** | `POST /ai/priority` router | Priority endpoint live |
+| **Week 6** | Preload all models at startup: `@app.on_event("startup") async def load_models()` → 8 blood models + organ model + postop model into `app.state` | Zero per-request disk I/O |
+| **Week 6** | Edge cases: blood with empty history → fallback 200; organ with all incompatible candidates → cross-hospital fallback triggered; priority with min inputs → returns P4; postop with missing vitals → returns `alert: false` with warning flag | All edge cases return 200 |
+| **Week 6** | Request logging middleware: log `method, path, duration_ms, status_code` per inference call | All inference calls logged |
 
-✅ **Week 6 Checkpoint**: All 3 AI endpoints live. Models preloaded at startup. Eval report committed. All edge cases return 200.
+✅ **Week 6 Checkpoint**: All 5 AI endpoints live. Models preloaded. Edge cases handled.
 
 ---
 
@@ -576,41 +892,34 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 7** | `pip install pytest pytest-asyncio httpx` → `pytest.ini` with `asyncio_mode = auto` | Pytest configured for async FastAPI tests |
-| **Week 7** | `tests/test_blood.py` — valid 6-month history → assert `shortage_risk in ["low","medium","high","critical"]`; assert `predicted_units_7d > 0`; `historical_usage=[]` → assert status 200, `shortage_risk == "unknown"` | Blood forecast tests pass including fallback |
-| **Week 7** | `tests/test_organ.py` — 5 candidates → assert `len(ranked) == 5`; assert `ranked[0].score >= ranked[-1].score`; assert each has `len(factors) > 0`; same blood type → ranking differs via SHAP + urgency | Organ match ordering and edge case tests pass |
-| **Week 7** | `tests/test_priority.py` — `urgency=10, wait_days=60, compatibility_score=90` → assert `"P1"`; min values → assert `"P4"` | Priority boundary tests pass |
-| **Week 7** | Add `GET /ai/health`: `{ status, models_loaded: ["blood_A_pos", ..., "organ"], uptime_seconds }` | Health endpoint reports all loaded models |
-| **Week 7** | Run 50 sequential requests per endpoint → confirm P95 < 300ms | Inference latency confirmed < 300ms P95 |
-| **Week 8** | Receive Dockerfile from M4 → `docker build -t hospital-ml-service .` → `docker run -p 8000:8000` → verify `/health` returns 200 with all models listed | Production Docker image builds and loads models |
-| **Week 8** | Deploy to Railway or AWS ECS → set `PORT=8000`, `MODEL_DIR=/app/models` → check startup logs for `"All models loaded"` before first request | ML service live; zero cold-start latency |
-| **Week 8** | Send production `AI_SERVICE_URL` to M2 → joint test: M2 calls `POST /ai/blood/forecast` from prod backend → verify reaches prod ML service | Full AI proxy chain validated on production |
+| **Week 7** | Pytest: blood forecast tests (valid history + empty fallback); organ match tests (ranked correctly, SHAP factors present, cross-hospital flag set when no local match); priority tests (P1/P4 boundaries); postop monitor tests (alert fires on anomaly, safe return on missing vitals) | All pytest tests pass |
+| **Week 7** | `GET /ai/health` — `{ status, models_loaded: [...], uptime_seconds }` — now reports all 5 models | Health endpoint reports all models |
+| **Week 7** | Run 50 sequential requests per endpoint → P95 < 300ms | Latency target confirmed |
+| **Week 8** | Production Docker image → deploy to Railway/AWS ECS → `AI_SERVICE_URL` sent to M2 | ML service live on production |
 
-✅ **Week 8 Checkpoint**: All pytest tests pass. P95 < 300ms. ML service live on production. M2 backend proxy resolves to production ML service.
+✅ **Week 8 Checkpoint**: All tests pass. P95 < 300ms. ML service live. M2 AI proxy connected.
 
 ---
 
-## 9. Member 4 — DevOps Engineer Roadmap
+## 11. Member 4 — DevOps Engineer Roadmap
 
-**Owns**: Docker, CI/CD pipelines, cloud infra, monitoring, security, database backups, secrets management
-**Never touches**: React components, Express route logic, ML model architecture, Prisma schema definitions
+**Owns**: Docker, CI/CD, cloud infra, monitoring, backups, secrets management
+**Never touches**: React components, Express routes, ML model architecture, Prisma schema
 **Timeline**: 8 Weeks
 
 ---
 
-### Phase 0 — Setup & Foundation (Week 1)
+### Phase 0 — Local Development Setup (Week 1)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 1** | Create GitHub monorepo → push to GitHub → Settings → Branch protection on `main`: require PR + 1 approval + CI passing before merge | Repo created; `main` branch protected |
-| **Week 1** | Write `docker-compose.yml` — 5 services: `frontend` (3000), `backend` (4000), `ml-service` (8000), `postgres` (5432, volume: `pgdata`), `redis` (6379) | `docker compose up` starts all 5 services |
-| **Week 1** | Add `depends_on` with health checks: `backend` depends on `postgres` (`condition: service_healthy`) + `redis` | Services start in correct dependency order |
-| **Week 1** | Write `Dockerfile` templates for M1 (Node 18 + Vite build), M2 (Node 18 multi-stage), M3 (Python 3.11 multi-stage, non-root user) → send to respective members | All 3 Dockerfiles usable as starting point |
-| **Week 1** | Create `.env.example` for all 3 services with every required key name but no values | Members know which env vars to set |
-| **Week 1** | Write DB seed: `prisma/seed.ts` — 3 hospitals, 8-type blood inventory × 3 hospitals, 20 organ donors, 5 test users | `npx prisma db seed` populates all demo data |
-| **Week 1** | `README.md` — prerequisites, setup: `git clone` → `cp .env.example .env` → fill values → `docker compose up` → seed DB | Any member sets up from scratch in under 10 min |
+| **Week 1** | Create GitHub monorepo → branch protection on `main`: require PR + 1 approval + CI passing | Repo created; main branch protected |
+| **Week 1** | `docker-compose.yml` — 5 services: frontend (3000), backend (4000), ml-service (8000), postgres (5432), redis (6379) with volumes | `docker compose up` starts all 5 services |
+| **Week 1** | Add `depends_on` with health checks — backend waits for postgres + redis | Services start in correct order |
+| **Week 1** | Write Dockerfile templates for M1 (Node 18 Vite), M2 (Node 18 multi-stage), M3 (Python 3.11 multi-stage non-root) → send to team | All 3 Dockerfiles ready |
+| **Week 1** | `.env.example` for all 3 services → `README.md` with setup steps: clone → cp .env → docker compose up → seed | Any member sets up in under 10 min |
 
-✅ **Week 1 Checkpoint**: `docker compose up` starts all 5 services. Seed script works. README documented. Dockerfiles shared with team.
+✅ **Week 1 Checkpoint**: `docker compose up` starts all 5 services. README documented. Dockerfiles sent to team.
 
 ---
 
@@ -618,214 +927,187 @@ REDIS_NODE_TYPE=cache.t3.micro
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 2** | `.github/workflows/backend-ci.yml` — trigger: push/PR to `main`; steps: `setup-node@v4 → npm ci → npm run lint → npm test → docker build -t hospital-backend .` | Backend CI green on every push |
-| **Week 2** | `.github/workflows/ml-service-ci.yml` — steps: `setup-python@v5 → pip install -r requirements.txt → pytest → docker build -t hospital-ml .` | ML service CI green on every push |
-| **Week 2** | Set GitHub Actions secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN` → add `docker push` step to both CI files after successful build | Docker images pushed to registry on CI pass |
-| **Week 3** | `.github/workflows/frontend-ci.yml` — steps: `setup-node@v4 → npm ci → npm run lint → npm test → npm run build`; fail on TypeScript errors | Frontend CI green on every push |
-| **Week 3** | Add Postgres health check: `healthcheck: test: ["CMD","pg_isready","-U","postgres"] interval: 10s retries: 5` | Docker Compose waits for Postgres ready |
-| **Week 3** | Add `HEALTHCHECK` to all 3 Dockerfiles: `HEALTHCHECK --interval=30s --timeout=10s CMD curl -f http://localhost:${PORT}/health || exit 1` | Docker reports container health status |
-| **Week 3** | `infra/README.md` — Redis key naming: `blood:inventory:h1:O_pos` (TTL 60s), `ai:forecast:h1:A_pos` (TTL 6h), `ai:organ_match:{requestId}` (TTL 30m) | Shared cache contract for M2 |
+| **Week 2** | `.github/workflows/backend-ci.yml` — `setup-node → npm ci → lint → test → docker build` | Backend CI green on every push |
+| **Week 2** | `.github/workflows/ml-service-ci.yml` — `setup-python → pip install → pytest → docker build` | ML service CI green |
+| **Week 3** | `.github/workflows/frontend-ci.yml` — `setup-node → npm ci → lint → test → build` | Frontend CI green |
+| **Week 3** | Postgres health check in docker-compose; `HEALTHCHECK` in all 3 Dockerfiles | Docker reports container health |
 
-✅ **Week 3 Checkpoint**: All 3 CI pipelines green. Docker images pushed to registry. Health checks configured.
+✅ **Week 3 Checkpoint**: All 3 CI pipelines green. Health checks configured.
 
 ---
 
-### Phase 2 — Staging Environment (Week 3–4)
+### Phase 2 — Staging & Production (Week 4–5)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 3** | `infra/terraform/staging/main.tf` — define: `aws_ecs_cluster`, `aws_db_instance` (PostgreSQL 15, db.t3.micro), `aws_elasticache_cluster` (Redis 7, cache.t3.micro), VPC, subnets, security groups | Terraform staging config written |
-| **Week 4** | `terraform init && terraform plan -var-file=staging.tfvars` → review → `terraform apply` | Staging AWS resources provisioned |
-| **Week 4** | Create ECS task definitions: backend (1 vCPU, 512MB), ML service (1 vCPU, 1GB) → create ECS services with `desiredCount=1` | Backend and ML running on ECS staging |
-| **Week 4** | Store staging secrets in AWS Secrets Manager: `hospital/staging/backend` → `{ DATABASE_URL, REDIS_URL, JWT_SECRET, AI_SERVICE_URL }` | All staging env vars secured |
-| **Week 4** | Add staging deploy job to CI: on merge to `develop` → `aws ecs update-service --cluster staging --force-new-deployment` | Auto-deploy to staging on every `develop` merge |
-| **Week 4** | Smoke test staging: `curl https://staging-backend/health` → 200; `curl https://staging-ml/health` → 200; test blood inventory GET on staging | Staging stack fully accessible |
+| **Week 4** | Terraform staging: ECS cluster, RDS PostgreSQL (t3.micro), ElastiCache Redis (t3.micro), VPC, subnets, security groups | Staging AWS resources provisioned |
+| **Week 4** | ECS task definitions for backend + ml-service → `desiredCount=1` → staging services running | Backend and ML live on staging |
+| **Week 4** | Store secrets in AWS Secrets Manager: `DATABASE_URL, REDIS_URL, JWT_SECRET, AI_SERVICE_URL` | Staging secrets secured |
+| **Week 5** | Production Terraform: RDS (t3.medium, multi_az=true), ElastiCache, ALB, ACM SSL certificate | Production infra provisioned; HTTPS live |
+| **Week 5** | Route 53: `api.hospital-system.com → ALB`; `app.hospital-system.com → Vercel` | Custom domains routing |
 
-✅ **Week 4 Checkpoint**: Staging live on AWS. Auto-deploy active. All 3 services healthy on staging URLs.
+✅ **Week 5 Checkpoint**: Staging live. Production infra provisioned. HTTPS enforced.
 
 ---
 
-### Phase 3 — Production Infrastructure (Week 5)
+### Phase 3 — Security & Monitoring (Week 6–8)
 
 | 📅 Week | Task | Deliverable |
 |---|---|---|
-| **Week 5** | `infra/terraform/prod/main.tf` — ECS cluster, RDS PostgreSQL (db.t3.medium, `multi_az=true`), ElastiCache Redis, ALB with target groups for backend + ML service | Production Terraform config written |
-| **Week 5** | `terraform apply -var-file=prod.tfvars` → provision production resources | Production AWS resources provisioned |
-| **Week 5** | ACM certificate → DNS validate → attach to ALB HTTPS listener port 443 → redirect HTTP 80 → 443 | SSL live; HTTPS enforced on all endpoints |
-| **Week 5** | Route 53: `api.hospital-system.com → ALB`; `app.hospital-system.com → Vercel` | Custom domains routing correctly |
-| **Week 5** | Store prod secrets in Secrets Manager: `hospital/prod/backend` → `{ DATABASE_URL, REDIS_URL, JWT_SECRET, AI_SERVICE_URL }` | Production secrets secured |
-| **Week 5** | `infra/k8s/` — write Kubernetes equivalents: `frontend-deployment.yaml`, `backend-deployment.yaml`, `ml-service-deployment.yaml`, `ingress.yaml` | K8s manifests ready as ECS alternative |
+| **Week 6** | OWASP audit: SQL injection (Prisma parameterized), XSS (Helmet CSP), broken auth (JWT expiry) | Security audit passed |
+| **Week 6** | RDS automated backups: `BackupRetentionPeriod=7`, `DeletionProtection=true` | 7-day backup retention active |
+| **Week 6** | k6 load test: ramp 0 → 500 VUs over 5min → P95 < 500ms | Load test passes |
+| **Week 7** | Prometheus scrape configs for backend, ML service, Postgres Exporter, Redis Exporter | Prometheus scraping all targets |
+| **Week 7** | Grafana dashboards: API latency + error rate; DB connections; AI inference latency; blood/organ event rate | 4 dashboards showing data |
+| **Week 8** | Production go-live: merge → CI → ECS deploy → `prisma migrate deploy` → seed → Vercel deploy | All 3 services live on production |
+| **Week 8** | Monitor Grafana 48h after go-live; fix any P0/P1 issues | Zero P0 incidents in first 48h |
 
-✅ **Week 5 Checkpoint**: Production infra provisioned. HTTPS live. Custom domains routing. Secrets in Secrets Manager.
-
----
-
-### Phase 4 — Security & Backup (Week 6)
-
-| 📅 Week | Task | Deliverable |
-|---|---|---|
-| **Week 6** | OWASP — SQL injection: verify all Prisma queries parameterized; `npm audit` → fix high severity vulns | SQL injection audit passed |
-| **Week 6** | OWASP — XSS: verify `helmet()` sets `Content-Security-Policy` on all backend responses | XSS mitigation confirmed |
-| **Week 6** | OWASP — Broken Auth: confirm JWT `exp` set (7d); test expired token → verify 401 | Auth security checks passed |
-| **Week 6** | RDS automated backups: `BackupRetentionPeriod=7` → enable `DeletionProtection=true` → test restore on staging | 7-day backup retention; restore tested |
-| **Week 6** | `infra/runbook.md` — DR steps: identify incident → get latest snapshot ARN → restore → update `DATABASE_URL` in Secrets Manager → redeploy ECS | Runbook written and committed |
-| **Week 6** | PagerDuty: backend `/health` non-200 > 2min → P1; ML `/health` non-200 > 5min → P2; RDS CPU > 80% for 10min → P2 | PagerDuty alerts configured and tested |
-| **Week 6** | `k6 run infra/load-test.js` — ramp 0 → 500 VUs over 5min, hold 5min → assert P95 < 500ms | Load test passes at 500 concurrent users |
-
-✅ **Week 6 Checkpoint**: OWASP audit passed. Backups active. PagerDuty alerts firing. Load test P95 < 500ms.
+✅ **Week 8 Checkpoint**: Production live. Monitoring active. Zero P0 incidents in first 48h.
 
 ---
 
-### Phase 5 — Monitoring & Go-Live (Week 7–8)
-
-| 📅 Week | Task | Deliverable |
-|---|---|---|
-| **Week 7** | `infra/monitoring/prometheus.yml` — scrape configs for backend, ML service, Postgres Exporter, Redis Exporter; `scrape_interval: 15s` | Prometheus scraping all 4 targets |
-| **Week 7** | `infra/monitoring/grafana-dashboard.json` — Dashboard 1 (API): request rate, P95 latency, error rate; Dashboard 2 (Infra): DB connections, Redis memory, CPU; Dashboard 3 (AI): inference latency per endpoint; Dashboard 4 (Hospital): blood update event rate, organ match event rate | 4 Grafana dashboards imported and showing data |
-| **Week 7** | Set up Loki for log aggregation → add Loki Docker driver → configure Grafana Loki data source → verify logs stream from all 3 services | Logs from all services visible in Grafana |
-| **Week 8** | Production go-live: (1) merge final code → CI passes → images pushed; (2) `aws ecs update-service --force-new-deployment`; (3) `npx prisma migrate deploy`; (4) `npx prisma db seed`; (5) deploy frontend to Vercel | All 3 production services deployed |
-| **Week 8** | Full E2E smoke test on production: login → blood request → WS blood:update fires → organ match returns ranked list → AI forecast chart loads | All production flows verified working |
-| **Week 8** | Enable Grafana alerting: API error rate > 5% for 2min → PagerDuty; P95 > 1000ms for 5min → alert | Production alerting active |
-| **Week 8** | Monitor all 4 Grafana dashboards for 48h after go-live → fix any P0/P1 → declare stable | Zero P0/P1 alerts in first 48h post-launch |
-
-✅ **Week 8 Checkpoint**: Full production stack live. All 4 Grafana dashboards showing real data. PagerDuty + Grafana alerts active. Zero P0 incidents in first 48h.
-
----
-
-## 10. API Reference
+## 12. API Reference
 
 ### Backend REST (Node.js — port 4000)
 
 ```
-POST   /auth/register           Body: { name, email, password, role, hospital_id }
-POST   /auth/login              Body: { email, password } → { token, user }
-GET    /auth/refresh            Headers: Authorization: Bearer <token>
+AUTH
+POST   /auth/register              Body: { name, email, password, role, hospital_id, government_id }
+POST   /auth/login                 Body: { email, password } → { token, user }
 
-GET    /hospitals               → list all hospitals
-GET    /hospitals/:id/stats     → { blood_summary, organ_summary }
+HOSPITALS
+GET    /hospitals                  → list all hospitals
+GET    /hospitals/:id/stats        → { blood_summary, organ_summary }
 
-GET    /blood/inventory/:hospitalId          → 8 blood types with units + shortage flag
-POST   /blood/inventory/update               → restock a blood type (admin)
-POST   /blood/requests                       → submit blood request
-GET    /blood/requests/pending/:hospitalId   → active blood requests
-PATCH  /blood/requests/:id                   → approve / fulfill / reject
+BLOOD — DONATION SIDE
+POST   /blood/donors               (admin) → register blood donor
+PATCH  /blood/donors/:id/lab       (admin) → update lab_test_status → cleared/rejected → updates inventory
 
-GET    /organs/donors                        → available donor registry
-POST   /organs/donors                        → register new donor
-POST   /organs/requests                      → submit organ request
-GET    /organs/requests/pending/:hospitalId  → active organ requests
-GET    /organs/requests/match/:requestId     → AI-ranked recipient list
+BLOOD — REQUEST SIDE
+GET    /blood/inventory/:hospitalId         → 8 blood types + shortage flags
+POST   /blood/inventory/update             (admin) → manual restock
+POST   /blood/requests                     (doctor/nurse) → submit blood request
+GET    /blood/requests/pending/:hospitalId → active requests sorted by AI priority
+PATCH  /blood/requests/:id                 (admin) → approve/fulfill/reject
 
-POST   /ai/blood/forecast       → proxy to Python → shortage prediction
-POST   /ai/organ/match          → proxy to Python → ranked compatibility list
-POST   /ai/priority             → proxy to Python → unified priority score
+ORGANS — DONATION SIDE
+POST   /organs/donors              (admin) → register organ donor with legal checks
+GET    /organs/donors              → active donor registry
 
-GET    /audit/:hospitalId        → recent audit log (admin)
-GET    /api/docs                 → Swagger UI
+ORGANS — REQUEST SIDE
+POST   /organs/requests            (doctor) → submit organ request with clinical notes
+GET    /organs/requests/pending/:hospitalId → waiting list sorted by AI priority
+GET    /organs/requests/match/:requestId    → AI-ranked donor list (local + cross-hospital, cached 30min)
+PATCH  /organs/requests/:id/doctor-approve (doctor) → medical approval step 1 (consent + surgical alert)
+PATCH  /organs/requests/:id/confirm        (admin)  → legal confirmation step 2 + transplant scheduling (OT booking)
+PATCH  /organs/requests/:id/transplant-complete (doctor) → post-surgery update + triggers AI post-op monitoring
+
+CROSS-HOSPITAL
+GET    /blood/cross-hospital/:bloodType    → query network hospitals for available stock (ranked by proximity + availability)
+GET    /organs/cross-hospital/match/:requestId → organ match extended to network hospitals
+
+AI PROXY
+POST   /ai/blood/forecast          → proxy to Python → shortage prediction
+POST   /ai/blood/check-stock       → proxy to Python → local stock check + cross-hospital fallback
+POST   /ai/organ/match             → proxy to Python → ranked compatibility list (local + cross-hospital)
+POST   /ai/priority                → proxy to Python → P1–P4 score
+POST   /ai/postop/monitor          → proxy to Python → rejection risk score + anomaly alert
+POST   /ai/reports/summary         → proxy to Python → monthly stats report
+
+ADMIN
+GET    /admin/reports/summary      (admin) → AI-generated monthly blood use + transplant stats + alerts
+GET    /admin/users                (admin) → list all users; filter by role / hospital
+POST   /admin/users                (admin) → create Doctor / Patient / Donor account
+PATCH  /admin/users/:id            (admin) → edit user role / access
+
+AUDIT
+GET    /audit/:hospitalId          (admin) → recent audit log
+GET    /api/docs                            → Swagger UI
 ```
 
 ### Python AI Microservice (FastAPI — port 8000)
 
 ```
 GET    /health
-  Returns: { status, model_versions: { blood, organ, priority } }
+  Returns: { status, models_loaded: [...], uptime_seconds }
 
 POST   /ai/blood/forecast
   Body:    { hospital_id, blood_type, historical_usage: [{date, units}] }
-  Returns: { blood_type, predicted_units_7d, shortage_risk, confidence,
-             upper_bound, lower_bound }
+  Returns: { blood_type, predicted_units_7d, shortage_risk (low/medium/high/critical),
+             confidence, upper_bound, lower_bound }
 
 POST   /ai/organ/match
-  Body:    { organ_type, donor: { blood_type, age, hla_markers },
-             candidates: [{patient_id, blood_type, age, hla_markers,
-                           urgency_score, wait_days}] }
-  Returns: { ranked: [{ patient_id, compatibility_score,
-                        factors: [{name, value, impact}] }] }
+  Body:    { organ_type, donor: { blood_type, age, hla_markers, hospital_id, lat, lng },
+             candidates: [{ patient_id, blood_type, age, hla_markers,
+                            urgency_score, wait_days, hospital_id }],
+             search_cross_hospital: bool }
+  Returns: { ranked: [{ patient_id, compatibility_score (0–100),
+                         factors: [{ name, value, impact }],
+                         is_cross_hospital: bool, hospital_name }] }
 
 POST   /ai/priority
   Body:    { request_type, urgency, wait_days, compatibility_score }
   Returns: { priority_score, urgency_level (P1/P2/P3/P4),
-             explanation: [{factor, contribution}] }
-```
+             explanation: [{ factor, contribution }] }
 
-### WebSocket Events (Socket.io)
+POST   /ai/postop/monitor
+  Body:    { patient_id, organ_type, days_post_op, vitals: { temp, creatinine, wbc, ... } }
+  Returns: { rejection_risk (0–100), alert: bool, anomaly_details: [...] }
+
+POST   /ai/reports/summary
+  Body:    { hospital_id, month, year }
+  Returns: { blood_usage: [{type, units_used, units_donated}],
+             transplants: { total, successful },
+             critical_alerts: [{ date, type, message }] }
+
+---
+
+## 13. WebSocket Events
 
 ```
-blood:update    → { hospital_id, blood_type, units_available, shortage_alert: bool }
-organ:matched   → { request_id, donor_id, patient_id, compatibility_score }
-alert:critical  → { type, message, hospital_id, resource_type }
+EVENT               PAYLOAD                                              WHO RECEIVES
+blood:update     →  { hospital_id, blood_type,                          All doctors + admin
+                      units_available, shortage_alert: bool }            in that hospital
+
+organ:matched    →  { request_id, donor_id, patient_id,                 All staff in hospital
+                      organ_type, compatibility_score,                   + that patient
+                      is_cross_hospital: bool }
+
+alert:critical   →  { type, message, hospital_id,                       Admin only
+                      blood_type, predicted_runout_days }
+
+postop:alert     →  { patient_id, organ_type, rejection_risk,           Doctor + Admin
+                      anomaly_details }                                  in that hospital
 ```
 
 ---
 
-## 11. Integration Points Table
+## 14. Integration Points Table
 
-| Integration | Producer | Consumer | When | Contract |
+| Integration | Producer | Consumer | Week | Contract |
 |---|---|---|---|---|
-| `AuthContext` (user + role + token) | M2 (issues JWT) | M1 (stores in context) | Week 1 hard deadline | `{ user, role, token, login(), logout() }` |
-| JWT token verification | M2 (auth middleware) | All protected routes | Week 1 | `Authorization: Bearer <token>` |
-| `GET /hospitals/:id/stats` | M2 | M1 (Dashboard) | Week 2 | `{ blood_summary, organ_summary }` |
-| `POST /ai/blood/forecast` schema | M3 (defines) | M2 (`aiClient.ts`, calls) | Week 2 | `{ blood_type, predicted_units_7d, shortage_risk, confidence }` |
-| `POST /ai/organ/match` schema | M3 (defines) | M2 (`aiClient.ts`, calls) | Week 2 | `{ ranked: [{patient_id, score, factors}] }` |
-| Blood inventory API response | M2 | M1 (`BloodTypeCard`) | Week 3 | `[{ blood_type, units_available, min_threshold, shortage_alert }]` |
-| `blood:update` WebSocket event | M2 (Socket.io) | M1 (`useSocket`) | Week 4 | `{ blood_type, units_available, shortage_alert: bool }` |
-| `organ:matched` WebSocket event | M2 (Socket.io) | M1 (`useSocket`) | Week 4 | `{ request_id, donor_id, patient_id, compatibility_score }` |
-| `POST /ai/priority` schema | M3 (defines) | M2 (`aiClient.ts`, calls) | Week 5 | `{ priority_score, urgency_level, explanation }` |
-| AI prediction widgets | M2 (proxy response) | M1 (AI widgets) | Week 5 | Same shape as Python AI response |
-| Redis caching infrastructure | M4 (provisions) | M2 (cache middleware) | Week 2 | Key naming: `resource:type:hospital_id`, agreed TTLs |
-| Dockerfile templates | M4 (provides) | M1, M2, M3 (use) | Week 1 | Multi-stage, non-root user templates |
-| CI/CD pipelines | M4 (writes) | All (tests must pass) | Week 2 | Test pass = merge gate to `main` |
-| Production service URLs | M4 (deploys) | M1, M2 (update `.env`) | Week 8 | `AI_SERVICE_URL`, `VITE_API_BASE_URL` |
+| AuthContext (user + role + token) | M2 (issues JWT) | M1 (Zustand store) | Week 1 | `{ user, role, token, login(), logout() }` |
+| AI Pydantic schemas | M3 (defines) | M2 (aiClient.ts stubs) | Week 1 | Frozen — no changes without team agreement |
+| `GET /hospitals/:id/stats` | M2 | M1 Dashboard | Week 2 | `{ blood_summary, organ_summary }` |
+| Blood inventory API | M2 | M1 BloodTypeCard | Week 3 | `[{ blood_type, units_available, min_threshold, shortage_alert }]` |
+| `blood:update` WebSocket | M2 Socket.io | M1 useSocket | Week 4 | `{ blood_type, units_available, shortage_alert }` |
+| `organ:matched` WebSocket | M2 Socket.io | M1 useSocket | Week 4 | `{ request_id, donor_id, patient_id, compatibility_score, is_cross_hospital }` |
+| `postop:alert` WebSocket | M2 Socket.io | M1 PostOpMonitor widget | Week 5 | `{ patient_id, organ_type, rejection_risk, anomaly_details }` |
+| AI prediction response shapes | M2 proxy | M1 AI widgets | Week 5 | Same shape as Python AI response |
+| Cross-hospital blood/organ search API | M2 | M1 CrossHospitalBanner + CompatibilityRankList | Week 5 | `{ results: [...], is_cross_hospital: bool, hospital_name }` |
+| AI summary report | M3 (generates) | M2 proxy → M1 reports page | Week 5 | `{ blood_usage, transplants, critical_alerts }` |
+| Redis infra | M4 provisions | M2 cache middleware | Week 2 | Key naming: `resource:type:hospital_id` |
+| Dockerfile templates | M4 provides | M1, M2, M3 | Week 1 | Multi-stage, non-root user |
+| Production service URLs | M4 deploys | M1, M2 `.env` | Week 8 | `AI_SERVICE_URL`, `VITE_API_BASE_URL` |
 
 ---
 
-## 12. Project Survival Rules
-
-| Rule | Detail |
-|---|---|
-| **M4 sets up Docker first** | `docker-compose.yml` + seed scripts ready by end of Week 1. No one else can develop without the DB. |
-| **M3 tests Python offline before wiring routes** | Run each model standalone with hardcoded inputs. Find JSON errors in Week 1, not Week 5. |
-| **M3's `/health` must be live before M2 integrates** | `aiClient.ts` throws 500 if Python is down. M3 must have `/health` working before M2 wires AI routes. |
-| **M2 publishes API contract by Week 2** | Swagger spec draft shared with M1 before M1 starts building forms. No guessing response shapes. |
-| **Pydantic schemas are the frozen AI contract** | M3 defines and locks all 3 schemas in Week 1. M2 must not break them. Any change = team agreement. |
-| **Cache all AI calls** | Blood forecast TTL: 6h. Organ match TTL: 30min. Priority: per-request only. Never call the model on every page load. |
-| **M4 owns all production env vars** | No member hand-edits production secrets. All go through M4's secrets manager. |
-| **Weekly Friday sync (30 min)** | Blockers, integration status, what's merged, what's next. Missing this = blocked team. |
-| **No direct DB access from frontend** | All data flows through Node.js. Never expose Postgres or Redis to the browser. |
-| **Graceful AI fallback is mandatory** | If Python AI service is down, backend serves cached result or safe default. Never propagate a 500 to the user. |
-
-### Priority Cut List
+## 15. Week-by-Week Build Order
 
 ```
-MUST SHIP:
-  ✅ Login + role-based access (doctor / admin / patient)
-  ✅ Blood inventory display + request form (all 8 blood types)
-  ✅ Organ donor registry + organ request form
-  ✅ Real-time blood:update WebSocket events
-  ✅ All 3 AI endpoints responding on production
-  ✅ Working production URL (all 3 services deployed)
-
-SHIP IF TIME:
-  ⚡ Blood shortage forecast chart (7-day prediction graph)
-  ⚡ Organ compatibility ranked list with factor explanation cards
-  ⚡ Admin AI priority queue view (P1–P4 ranked requests)
-  ⚡ Admin audit log page
-
-STRETCH / DROP IF NEEDED:
-  🔵 Cross-hospital resource search ("find O- blood near me")
-  🔵 Donor-recipient notification system (email/SMS)
-  🔵 PDF allocation summary export
-  🔵 Compare two hospitals side-by-side
-```
-
----
-
-## 13. Build Order Quick Reference
-
-```
-Week 1  →  M4: Docker Compose + Dockerfiles + DB seed + README
-            M2: Express + Prisma schema + JWT auth + AI stubs
-            M3: FastAPI + all 3 Pydantic schemas + synthetic data (share schemas with M2 immediately)
+Week 1  →  M4: Docker Compose + Dockerfiles + README
+            M2: Express + Prisma schema (corrected) + JWT auth + AI stubs
+            M3: FastAPI + all 3 Pydantic schemas + synthetic data → share schemas with M2
             M1: Vite + Tailwind + Zustand + component library + PrivateRoute
 
 Week 2  →  M1: Login + Register + Dashboard
@@ -833,112 +1115,189 @@ Week 2  →  M1: Login + Register + Dashboard
             M3: Blood demand model training (Prophet)
             M4: Backend + ML service CI pipelines
 
-Week 3  →  M1: Blood page + Organ page + Requests page
-            M2: Blood CRUD APIs + Organ CRUD APIs + organ match proxy
-            M3: Blood forecast endpoint live + organ matcher feature engineering
+Week 3  →  M1: Blood page + Organ page + Requests page + Donor registration forms
+            M2: Blood donation API + lab result API + Blood CRUD + Organ CRUD
+            M3: Blood forecast endpoint live + organ feature engineering
             M4: Frontend CI + staging Terraform + Postgres health check
 
-Week 4  →  M1: useSocket hook + blood:update + organ:matched WS wiring
-            M2: Socket.io server + WS events + Redis adapter
+Week 4  →  M1: useSocket hook + all 3 WebSocket events wired
+            M2: Socket.io server + two-step organ approval endpoints + WS events
             M3: Organ Random Forest trained + SHAP explainability
-            M4: Staging deploy (all 3 services live)
+            M4: Staging deploy (all 3 services live on staging)
 
-Week 5  →  M1: BloodForecastChart + CompatibilityRankList + FactorCard + PriorityQueue
-            M2: aiClient.ts wired to Python + AI proxy routes + priority auto-scoring
+Week 5  →  M1: BloodForecastChart + CompatibilityRankList + FactorCard + PriorityQueue + two-step approval UI
+            M2: aiClient.ts wired to Python + AI proxy routes + priority auto-scoring background
             M3: Organ match endpoint live + priority engine + models preloaded at startup
             M4: Production infra (ECS/RDS/ElastiCache/SSL)
 
-Week 6  →  M1: Tests (Vitest + Playwright)
+Week 6  →  M1: Vitest + Playwright tests
             M2: Jest integration tests + rate limiting + Swagger docs
-            M3: Pytest + edge cases + eval report + inference latency tuning
-            M4: OWASP audit + RDS backups + PagerDuty + k6 load test
+            M3: Pytest all 3 models + edge cases + eval report
+            M4: OWASP audit + RDS backups + k6 load test
 
-Week 7  →  M1: Mobile fixes + accessibility audit + skeleton loaders + error boundaries
-            M2: Swagger docs complete + AES encryption on patient fields
-            M3: All pytest passing + /ai/health endpoint + P95 < 300ms confirmed
-            M4: Prometheus + Grafana + Loki setup
+Week 7  →  M1: Mobile fixes + skeleton loaders + error boundaries
+            M2: AES encryption on patient diagnosis + Swagger complete
+            M3: /ai/health endpoint + P95 < 300ms confirmed + all pytest passing
+            M4: Prometheus + Grafana dashboards + Loki logs
 
-Week 8  →  M1: Lazy loading + prod build + Lighthouse audit + prod smoke test
-            M2: Production Docker image + Railway/ECS deploy + prod smoke test
-            M3: Production Docker image + model pre-warm + prod validation
+Week 8  →  M1: Lazy loading + prod build + smoke test on production URL
+            M2: Production deploy + prisma migrate deploy + prod smoke test
+            M3: Production Docker image + model pre-warm + send AI_SERVICE_URL to M2
             M4: Go-live execution + Grafana alerting + 48h monitoring watch
 ```
 
 ### Master Timeline
 
 ```
-Week 1   ████░░░░░░░░░░░░   Docker, scaffolds, schemas (all members — densest week)
-Week 2   ░░████░░░░░░░░░░   Auth + Dashboard + blood model training
-Week 3   ░░░░████░░░░░░░░   Blood + Organ pages + all CRUD APIs + CI pipelines
-Week 4   ░░░░░░████░░░░░░   Real-time WebSocket + organ model trained + staging live
+Week 1   ████░░░░░░░░░░░░   Docker, scaffolds, corrected schema, schemas shared
+Week 2   ░░████░░░░░░░░░░   Auth + Dashboard + blood forecast training
+Week 3   ░░░░████░░░░░░░░   Blood + Organ pages + donor registration + all CRUD APIs
+Week 4   ░░░░░░████░░░░░░   Real-time WebSocket + organ model + two-step approval + staging
 Week 5   ░░░░░░░░████░░░░   AI widgets + all 3 AI endpoints live + prod infra
-Week 6   ░░░░░░░░░░████░░   Testing + security + OWASP + load test (all members)
-Week 7   ░░░░░░░░░░░░████   Polish + monitoring setup + final testing
-Week 8   ░░░░░░░░░░░░░░██   Production go-live + 48h monitoring watch
+Week 6   ░░░░░░░░░░████░░   Testing + security + OWASP + load test
+Week 7   ░░░░░░░░░░░░████   Polish + monitoring + final testing
+Week 8   ░░░░░░░░░░░░░░██   Production go-live + 48h monitoring
 ```
 
 ### Key Milestones
 
 | Milestone | Target | Description |
 |---|---|---|
-| M1: Local Dev Running | End of Week 1 | All services run via `docker compose up`; schemas shared |
-| M2: Auth + Dashboard Live | End of Week 2 | Login works; hospital stats on dashboard |
-| M3: Blood & Organ Pages + APIs | End of Week 3 | Full CRUD + blood forecast endpoint working |
-| M4: Real-time + Organ AI | End of Week 4 | WS blood events live; organ match endpoint working; staging deployed |
-| M5: AI Fully Integrated | End of Week 5 | All 3 AI predictions rendered in frontend; prod infra ready |
-| M6: Tests + Security | End of Week 6 | 80%+ coverage; security audit passed; load test green |
-| M7: Monitoring Ready | End of Week 7 | Grafana dashboards live on staging; all tests passing |
-| M8: Production Launch | End of Week 8 | Live system with monitoring; zero P0 alerts in first 48h |
+| M1: Local Dev Running | End Week 1 | All services via `docker compose up`; corrected schemas shared |
+| M2: Auth + Dashboard Live | End Week 2 | Login works; hospital stats on dashboard |
+| M3: Blood & Organ Pages + APIs | End Week 3 | Donor registration + all CRUD + blood forecast live |
+| M4: Real-time + Organ AI | End Week 4 | WS events live; organ match + two-step approval; staging deployed |
+| M5: AI Fully Integrated | End Week 5 | All 3 AI predictions rendered; prod infra ready |
+| M6: Tests + Security | End Week 6 | 80%+ coverage; audit passed; load test green |
+| M7: Monitoring Ready | End Week 7 | Grafana live on staging; all tests passing |
+| M8: Production Launch | End Week 8 | Live system; zero P0 alerts in first 48h |
 
 ---
 
-## 14. Demo Script
+## 16. Project Survival Rules
+
+| Rule | Detail |
+|---|---|
+| **M4 sets up Docker first** | `docker-compose.yml` + seed scripts ready by end of Week 1. No one can develop without the DB. |
+| **M3 shares schemas with M2 on Day 1** | All 5 Pydantic schemas frozen and sent to M2 in Week 1. M2 builds stubs from these. No guessing. |
+| **Corrected DB schema is the source of truth** | New tables (blood_donations) and new fields (donor_type, consent_signed, doctor_approved, admin_confirmed, ot_booking_details) are non-negotiable. Do not use the old schema. |
+| **Doctor does health screening, not Admin** | Blood donation eligibility (BP, Hb, disease check) is a medical decision — done by Doctor, not Admin. Admin registers and stores the unit after lab clearance. |
+| **Three-step organ approval is mandatory** | Doctor confirms match medically + obtains patient consent (Step 1). Admin schedules transplant legally + books OT (Step 2). Doctor performs surgery and marks complete — triggering AI post-op (Step 3). |
+| **Blood donor registration is its own flow** | Blood inventory is NOT manually updated by admin anymore. Inventory increases only when `lab_test_status = cleared` AND admin approves storage. Donor card with next eligible date is issued. |
+| **AI cross-hospital search is automatic** | When local blood stock is unavailable, AI triggers cross-hospital search automatically. When no local organ donor matches, AI extends search to network hospitals. This is not optional — it is part of the core allocation flow. |
+| **Post-op AI monitoring is mandatory** | After transplant-complete is marked, AI post-op monitor fires and computes rejection risk. If anomaly detected, `postop:alert` WebSocket event fires to doctor and admin. |
+| **Cache all AI calls** | Blood forecast TTL: 6h. Organ match TTL: 30min. Priority: per-request only. Post-op monitor: per-request only. Never call the model on every page load. |
+| **Graceful AI fallback is mandatory** | If Python AI is down, backend serves cached result or safe default. Never propagate a 500 to the user. |
+| **Patient cannot submit any request** | Only doctors/nurses submit requests. Patients are read-only. This is legally and medically correct. |
+| **No direct DB access from frontend** | All data flows through Node.js. Never expose Postgres or Redis to the browser. |
+| **Weekly Friday sync (30 min)** | Blockers, integration status, what's merged, what's next. |
+
+### Priority Cut List
+
+```
+MUST SHIP (Hackathon core):
+  ✅ Login + role-based access (doctor / admin / nurse / donor / patient)
+  ✅ Blood donor registration flow (admin registers, doctor health screens, lab clears, admin stores, inventory updates)
+  ✅ Blood request flow (doctor requests → AI checks local stock → admin approves + cross-match confirmed → AI deducts → doctor transfuses)
+  ✅ Donor card issued with next eligible date after cleared donation
+  ✅ Organ donor registration (living + deceased with consent, doctor medical evaluation)
+  ✅ Organ request + three-step flow (AI match → doctor confirms to patient → admin schedules transplant)
+  ✅ AI cross-hospital search for blood (when local stock unavailable) and organs (when no local match)
+  ✅ Real-time WebSocket events (blood:update, organ:matched, alert:critical, postop:alert)
+  ✅ All 5 AI endpoints responding on production
+  ✅ Working production URL (all 3 services deployed)
+
+SHIP IF TIME:
+  ⚡ Blood shortage forecast chart (7-day prediction graph with confidence bands)
+  ⚡ Organ compatibility ranked list with SHAP factor cards + cross-hospital badge
+  ⚡ Admin AI priority queue view (P1–P4 ranked requests)
+  ⚡ AI post-op monitoring widget (rejection risk score + anomaly alerts on transplanted patient record)
+  ⚡ Admin AI summary report page (monthly blood use, transplant stats, critical alerts log)
+  ⚡ Organ countdown timer for deceased donor viability window
+  ⚡ Audit log page for admin
+
+STRETCH / DROP IF NEEDED:
+  🔵 Donor notification system (email/SMS)
+  🔵 PDF allocation summary export
+  🔵 Blood donation camp management
+```
+
+---
+
+## 17. Hackathon Demo Script
 
 ```
 TIME    SPEAKER   ACTION
-----------------------------------------------------------------------------------
-0:00    M4        "Every year, hospitals fail to save lives not because of missing
-                   doctors — but because of missing resources. We fix that."
+────────────────────────────────────────────────────────────────────────
+0:00    M4        "Every year hospitals fail to save lives — not because
+                   of missing doctors — but because of missing resources
+                   at the right time. We fix that."
 
-0:20    M4        Competitor slide: Excel sheets, phone calls, manual organ matching
-                  — slow, error-prone, no prediction, no real-time visibility
+0:20    M4        Competitor slide: Excel sheets, phone calls, manual
+                   organ matching — slow, error-prone, no prediction,
+                   no real-time visibility, no cross-hospital coordination
 
-0:40    M1        Open live app → log in as Dr. Patel at City Hospital
-                  Dashboard loads: 3 critical blood shortages, 2 organ matches pending
+0:40    M1        Open live app → log in as Admin at City Hospital
+                  Dashboard: 2 critical blood shortages, 1 organ match pending
 
-1:00    M1        Click Blood tab → blood type grid appears
-                  "O- has 2 units left — AI flags HIGH shortage risk"
+1:00    M1        Click "Register Blood Donor" — fill form for walk-in donor
+                  blood type O−, government ID verified
+                  → Doctor screens donor: BP ✅, Hb ✅, eligible ✅
+                  → Lab clears ABO/Rh typing + HIV/Hep screens
+                  → Admin stores unit → quarantine lifted
+                  "1 unit of O− added to blood bank. Donor card issued — next eligible in 90 days."
 
-1:15    M1        Click forecast chart → "AI predicts we run out in 4 days —
-                  system triggers an early restock alert automatically"
+1:20    M1        Blood page → O− card shows 3 units, HIGH shortage risk
+                  Click forecast chart → "AI predicts O− runs out in 4 days"
 
-1:30    M3        "Our Prophet time-series model trains on 6 months of usage history.
-                  It predicts demand 7 days ahead with confidence intervals."
+1:35    M3        "Our Prophet time-series model trains on 6 months of usage.
+                   It predicts demand 7 days ahead — with confidence intervals
+                   — giving admins time to act before crisis hits."
 
-1:50    M1        Blood restock approved in another tab → O- card updates live
-                  "Units jump from 2 to 12 — WebSocket pushes the change instantly"
+1:50    M1        Switch to Doctor login → Blood Request form
+                  Patient: #203, Blood type: O−, Urgency: Critical, Reason: Surgery
+                  Submit → "AI scores this P1 instantly in background"
+                  → "AI checks local blood bank — stock available ✅"
 
-2:05    M2        "No refresh needed. Every inventory change pushes live to all
-                  connected doctors via Socket.io."
+2:05    M1        Switch back to Admin → Priority queue shows P1 at top
+                  Approve (cross-match confirmed, unit issued) → inventory deducts
+                  → Doctor transfuses bedside → AI deducts stock
+                  WebSocket fires → Doctor sees "Approved" without refresh
+                  "If local stock had been zero, AI would have searched partner hospitals automatically."
 
-2:20    M1        Click Organs tab → open pending kidney request
-                  Ranked recipient list appears with compatibility scores
+2:20    M2        "Every inventory change is a WebSocket event. Every donation
+                   is traceable from donor to patient. AI cross-hospital search
+                   activates automatically — no phone calls needed."
 
-2:35    M3        "Our ML scorer ranks 12 candidates in under 200ms — blood type,
-                  HLA markers, urgency, and wait time — full SHAP explanations included"
+2:35    M1        Click Organs tab → open pending kidney request
+                  Click "Find Best Match" → ranked list appears in < 200ms
+                  → Top result has cross-hospital badge: "Donor at General Hospital"
 
-2:50    M1        Click top match → factor breakdown card:
-                  "Blood type +32, HLA match +28, Urgency +20, Wait time +12"
+2:50    M3        "Our Random Forest model scores all donors on blood type, HLA,
+                   age, urgency, wait time, and geography. Cross-hospital donors
+                   are searched automatically when no local match is found.
+                   SHAP tells us exactly why each candidate was ranked."
 
-3:05    M1        Confirm match → organ:matched event fires → request status flips
-                  to "Matched" instantly across all open sessions
+3:00    M1        Click top match — SHAP factor card: "Blood type +35, HLA +20,
+                   Urgency +20, Wait +10, Geography +5 = 90/100"
 
-3:15    M4        "Blood. Organs. One system. Real-time. AI-assisted. Built in 8 weeks."
-                  "Live at [production URL]. Thank you."
+3:10    M1        Doctor clicks "Confirm Match to Patient" → consent obtained, surgical team alerted ✅
+                  Admin clicks "Schedule Transplant" → OT booked, logistics arranged ✅
+                  organ:matched fires → Patient sees "A kidney match has been found"
+
+3:20    M1        Post-surgery: Doctor marks transplant complete →
+                  AI post-op monitor shows rejection risk: 8% (low) ✅
+                  "If risk spikes — postop:alert fires instantly to doctor and admin."
+
+3:30    M4        "Blood. Organs. One system. Real-time. AI-assisted.
+                   Cross-hospital. Post-op monitored. Legally correct. Built in 8 weeks.
+                   Live at [production URL]. Thank you."
+────────────────────────────────────────────────────────────────────────
 ```
 
 ---
 
-*📋 Roadmap v5.0 — Smart Hospital Resource Allocation System (Blood & Organ)*
-*Duration: 8 Weeks | 2 Months*
-*"The right resource, for the right patient, at the right time."*
+*📋 Smart Hospital Resource Allocation System — Hackathon Roadmap v3.0*
+*4-Member Team | 8 Weeks | Theme: Smart Resource Allocation — Data-Driven Volunteer Coordination for Social Impact*
+*"The right resource. The right patient. The right time."*
+*Updated: Reflects new AI-Powered Blood & Organ Management Workflow (4 roles · AI matching · Blood alerts · Cross-hospital search · Post-op monitoring)*
