@@ -8,6 +8,8 @@ import Centers from './pages/Centers';
 import HospitalDashboard from './pages/HospitalDashboard';
 import MyImpact from './pages/MyImpact';
 import OurImpact from './pages/OurImpact';
+import GeminiAssistant from './components/GeminiAssistant';
+import OrganRegistry from './pages/OrganRegistry';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -27,6 +29,7 @@ function AnimatedRoutes() {
           <Route path="/dashboard" element={<HospitalDashboard />} />
           <Route path="/my-impact" element={<MyImpact />} />
           <Route path="/our-impact" element={<OurImpact />} />
+          <Route path="/organs" element={<OrganRegistry />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -44,6 +47,7 @@ function AppContent() {
         <AnimatedRoutes />
       </div>
       {!isDashboard && <Footer />}
+      <GeminiAssistant />
     </div>
   );
 }

@@ -33,7 +33,11 @@ import {
   LineChart, 
   Line,
   AreaChart,
-  Area
+  Area,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
 } from 'recharts';
 
 const fade = { hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } };
@@ -45,9 +49,9 @@ const sidebarConfig: Record<Role, any[]> = {
   ADMIN: [
     { icon: LayoutDashboard, label: 'Overview', id: 'overview' },
     { icon: Droplet, label: 'Blood Inventory', id: 'inventory' },
+    { icon: Dna, label: 'Organ Registry', id: 'matching' },
     { icon: AlertTriangle, label: 'Priority Queue', id: 'requests' },
     { icon: Users, label: 'User Directory', id: 'users' },
-    { icon: ShieldCheck, label: 'Access Control', id: 'access' },
     { icon: FileText, label: 'Analytics', id: 'reports' },
   ],
   DOCTOR: [
@@ -80,10 +84,12 @@ const mockBloodData = [
 ];
 
 const mockRequests = [
-  { id: '#REQ-102', patient: 'Anjali Sharma', type: 'O-', urgency: 'P1', status: 'In Lab', time: '12m ago' },
-  { id: '#REQ-098', patient: 'Rahul Verma', type: 'A+', urgency: 'P2', status: 'Matched', time: '45m ago' },
-  { id: '#REQ-085', patient: 'Sanjay Gupta', type: 'AB+', urgency: 'P4', status: 'Fulfilled', time: '2h ago' },
-  { id: '#REQ-105', patient: 'Priya Das', type: 'B-', urgency: 'P1', status: 'Pending', time: 'Just now' },
+  { id: '#REQ-102', patient: 'Anjali Sharma', type: 'O-', urgency: 'P1', status: 'In Lab', time: '12m ago', category: 'Blood' },
+  { id: '#REQ-098', patient: 'Rahul Verma', type: 'A+', urgency: 'P2', status: 'Matched', time: '45m ago', category: 'Blood' },
+  { id: '#REQ-085', patient: 'Sanjay Gupta', type: 'AB+', urgency: 'P4', status: 'Fulfilled', time: '2h ago', category: 'Blood' },
+  { id: '#REQ-105', patient: 'Priya Das', type: 'B-', urgency: 'P1', status: 'Pending', time: 'Just now', category: 'Blood' },
+  { id: '#REQ-201', patient: 'Amit Joshi', type: 'Kidney', urgency: 'P1', status: 'Matching', time: '5m ago', category: 'Organ' },
+  { id: '#REQ-202', patient: 'Sunita Rao', type: 'Liver', urgency: 'P1', status: 'Approved', time: '18m ago', category: 'Organ' },
 ];
 
 const chartData = [
@@ -106,12 +112,12 @@ export default function HospitalDashboard() {
   const renderOverview = () => (
     <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-8">
       {/* Dynamic Hero Section */}
-      <div className="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
+      <div className="bg-gradient-to-r from-[#b7131a] to-[#8e0f14] rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
         <div className="relative z-10">
           <h2 className="text-3xl font-bold font-outfit mb-2">
             Welcome back, {role === 'ADMIN' ? 'Chief Admin' : role === 'PATIENT' ? 'Ravi Sharma' : 'Medical Staff'}.
           </h2>
-          <p className="text-blue-100 opacity-90 max-w-xl">
+          <p className="text-red-100 opacity-90 max-w-xl">
             {role === 'ADMIN' 
               ? 'All critical systems are online. You have 2 pending approvals in the priority queue.' 
               : role === 'PATIENT'
@@ -119,24 +125,24 @@ export default function HospitalDashboard() {
               : 'Inventory is stable, but O- is at critical levels. Please check the blood bank logs.'}
           </p>
           <div className="mt-6 flex gap-4">
-            <button className="bg-white text-blue-800 px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-50 transition-all shadow-lg">
+            <button className="bg-white text-[#b7131a] px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-red-50 transition-all shadow-lg">
               Generate Report
             </button>
-            <button className="bg-blue-600/30 backdrop-blur-md border border-white/20 px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-white/10 transition-all">
+            <button className="bg-red-600/30 backdrop-blur-md border border-white/20 px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-white/10 transition-all">
               System Logs
             </button>
           </div>
         </div>
         {/* Decorative elements */}
-        <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-[-20%] left-[20%] w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-red-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-[-20%] left-[20%] w-64 h-64 bg-rose-500/20 rounded-full blur-3xl" />
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           { label: 'System Uptime', value: '99.9%', icon: Activity, color: 'text-emerald-600', bg: 'bg-emerald-50', trend: '+0.1%', trendColor: 'text-emerald-500' },
-          { label: 'Active Requests', value: '24', icon: Bell, color: 'text-blue-600', bg: 'bg-blue-50', trend: '+12%', trendColor: 'text-blue-500' },
+          { label: 'Active Requests', value: '24', icon: Bell, color: 'text-red-600', bg: 'bg-red-50', trend: '+12%', trendColor: 'text-red-500' },
           { label: 'Pending Organs', value: '08', icon: ShieldCheck, color: 'text-amber-600', bg: 'bg-amber-50', trend: '-2%', trendColor: 'text-amber-500' },
           { label: 'Critical Units', value: '02', icon: AlertTriangle, color: 'text-rose-600', bg: 'bg-rose-50', trend: 'Severe', trendColor: 'text-rose-500' },
         ].map((stat, i) => (
@@ -171,8 +177,8 @@ export default function HospitalDashboard() {
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="colorUsage" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#b7131a" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="#b7131a" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorColl" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
@@ -185,7 +191,7 @@ export default function HospitalDashboard() {
                 <Tooltip 
                   contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}}
                 />
-                <Area type="monotone" dataKey="usage" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorUsage)" />
+                <Area type="monotone" dataKey="usage" stroke="#b7131a" strokeWidth={3} fillOpacity={1} fill="url(#colorUsage)" />
                 <Area type="monotone" dataKey="collection" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorColl)" />
               </AreaChart>
             </ResponsiveContainer>
@@ -204,11 +210,11 @@ export default function HospitalDashboard() {
                   <p className="font-bold text-slate-800">{b.units} Units Remaining</p>
                   <p className={`text-xs font-bold uppercase tracking-wider ${b.status === 'Critical' ? 'text-rose-500' : 'text-amber-500'}`}>{b.status}</p>
                 </div>
-                <button className="text-blue-600 font-bold text-xs hover:underline">Restock</button>
+                <button className="text-red-600 font-bold text-xs hover:underline">Restock</button>
               </div>
             ))}
           </div>
-          <button className="w-full mt-8 py-4 rounded-2xl bg-blue-50 text-blue-600 font-bold text-sm hover:bg-blue-100 transition-all">
+          <button className="w-full mt-8 py-4 rounded-2xl bg-red-50 text-red-600 font-bold text-sm hover:bg-red-100 transition-all">
             View All Inventory
           </button>
         </div>
@@ -229,10 +235,10 @@ export default function HospitalDashboard() {
             <input 
               type="text" 
               placeholder="Search blood type..." 
-              className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:border-blue-500 transition-all text-sm"
+              className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:border-[#b7131a] transition-all text-sm"
             />
           </div>
-          <button className="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-200">
+          <button className="bg-[#b7131a] text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-red-200">
             <Droplet size={18} />
             Add Stock
           </button>
@@ -247,14 +253,14 @@ export default function HospitalDashboard() {
             className={`bg-white p-6 rounded-3xl border-2 transition-all ${
               b.status === 'Critical' ? 'border-rose-100 bg-rose-50/10' : 
               b.status === 'Warning' ? 'border-amber-100 bg-amber-50/10' : 
-              'border-slate-50 hover:border-blue-100 shadow-sm'
+              'border-slate-50 hover:border-red-100 shadow-sm'
             }`}
           >
             <div className="flex justify-between items-start mb-6">
               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black shadow-lg ${
                 b.status === 'Critical' ? 'bg-rose-500 text-white' : 
                 b.status === 'Warning' ? 'bg-amber-500 text-white' : 
-                'bg-blue-100 text-blue-700'
+                'bg-red-100 text-[#b7131a]'
               }`}>
                 {b.name}
               </div>
@@ -277,7 +283,7 @@ export default function HospitalDashboard() {
                 ))}
                 <div className="w-6 h-6 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-slate-400">+12</div>
               </div>
-              <button className="text-blue-600 font-bold text-xs">History</button>
+              <button className="text-red-600 font-bold text-xs">History</button>
             </div>
           </motion.div>
         ))}
@@ -318,7 +324,7 @@ export default function HospitalDashboard() {
                 <td className="px-8 py-6 font-bold text-slate-800 text-sm">{req.id}</td>
                 <td className="px-8 py-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-xs font-bold">
                       {req.patient.split(' ').map(n => n[0]).join('')}
                     </div>
                     <span className="font-bold text-slate-800 text-sm">{req.patient}</span>
@@ -340,12 +346,12 @@ export default function HospitalDashboard() {
                 </td>
                 <td className="px-8 py-6">
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${req.status === 'Fulfilled' ? 'bg-emerald-500' : 'bg-blue-500 animate-pulse'}`} />
+                    <div className={`w-2 h-2 rounded-full ${req.status === 'Fulfilled' ? 'bg-emerald-500' : 'bg-[#b7131a] animate-pulse'}`} />
                     <span className="text-sm font-bold text-slate-600">{req.status}</span>
                   </div>
                 </td>
                 <td className="px-8 py-6">
-                  <button className="bg-slate-100 text-slate-600 p-2 rounded-lg hover:bg-blue-600 hover:text-white transition-all">
+                  <button className="bg-slate-100 text-slate-600 p-2 rounded-lg hover:bg-[#b7131a] hover:text-white transition-all">
                     <ArrowUpRight size={18} />
                   </button>
                 </td>
@@ -364,7 +370,7 @@ export default function HospitalDashboard() {
           <h2 className="text-2xl font-bold text-slate-800">User Directory</h2>
           <p className="text-slate-500">Manage all system participants and their roles.</p>
         </div>
-        <button className="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-200">
+        <button className="bg-[#b7131a] text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-red-200">
           <UserPlus size={18} />
           Register New User
         </button>
@@ -379,12 +385,12 @@ export default function HospitalDashboard() {
           { name: 'Amit Joshi', role: 'Patient', dept: 'General Ward', status: 'Admitted' },
         ].map((user, i) => (
           <motion.div key={i} variants={fade} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
-            <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center text-blue-600 font-black text-xl">
+            <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center text-[#b7131a] font-black text-xl">
               {user.name.split(' ').map(n => n[0]).join('')}
             </div>
             <div className="flex-1 min-w-0">
               <h4 className="font-bold text-slate-800 truncate">{user.name}</h4>
-              <p className="text-xs font-bold text-blue-600 uppercase tracking-tighter mb-1">{user.role}</p>
+              <p className="text-xs font-bold text-red-600 uppercase tracking-tighter mb-1">{user.role}</p>
               <p className="text-xs text-slate-400">{user.dept}</p>
             </div>
             <div className="flex flex-col items-end gap-2">
@@ -416,7 +422,7 @@ export default function HospitalDashboard() {
                 <h4 className="text-lg font-bold text-slate-800 mb-1">{policy.title}</h4>
                 <p className="text-sm text-slate-500 leading-relaxed">{policy.desc}</p>
               </div>
-              <div className={`w-14 h-7 rounded-full relative cursor-pointer transition-all duration-300 ${policy.enabled ? 'bg-blue-600' : 'bg-slate-200'}`}>
+              <div className={`w-14 h-7 rounded-full relative cursor-pointer transition-all duration-300 ${policy.enabled ? 'bg-[#b7131a]' : 'bg-slate-200'}`}>
                 <div className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow-sm transition-all duration-300 ${policy.enabled ? 'right-1' : 'left-1'}`} />
               </div>
             </motion.div>
@@ -439,36 +445,130 @@ export default function HospitalDashboard() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
-        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-bold text-slate-800 mb-8">Inventory Trends</h3>
-          <div className="h-[300px]">
+        <div className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm">
+          <h3 className="text-xl font-bold text-slate-800 mb-8">Supply vs Demand</h3>
+          <div className="h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
-                <Tooltip cursor={{fill: '#f8fafc'}} contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}} />
-                <Bar dataKey="usage" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={20} />
-                <Bar dataKey="collection" fill="#10b981" radius={[4, 4, 0, 0]} barSize={20} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-bold text-slate-800 mb-8">AI Forecasting Accuracy</h3>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData}>
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id="usageGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#b7131a" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="#b7131a" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="collGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
                 <Tooltip contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}} />
-                <Line type="monotone" dataKey="usage" stroke="#3b82f6" strokeWidth={3} dot={{r: 4, fill: '#3b82f6'}} activeDot={{r: 6}} />
-              </LineChart>
+                <Area type="monotone" dataKey="usage" stroke="#b7131a" strokeWidth={4} fillOpacity={1} fill="url(#usageGrad)" />
+                <Area type="monotone" dataKey="collection" stroke="#10b981" strokeWidth={4} fillOpacity={1} fill="url(#collGrad)" />
+                <Legend iconType="circle" />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
+
+        <div className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm">
+          <h3 className="text-xl font-bold text-slate-800 mb-8">Registry Distribution</h3>
+          <div className="h-[350px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={[
+                    { name: 'Blood Donors', value: 4500, color: '#b7131a' },
+                    { name: 'Organ Pledges', value: 1200, color: '#10b981' },
+                    { name: 'Emergencies', value: 300, color: '#3b82f6' },
+                  ]}
+                  innerRadius={80}
+                  outerRadius={120}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {[
+                    { color: '#b7131a' },
+                    { color: '#10b981' },
+                    { color: '#3b82f6' },
+                  ].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}} />
+                <Legend iconType="circle" />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderMatching = () => (
+    <motion.div variants={stagger} initial="hidden" animate="show" className="space-y-8">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800">Organ Matching Registry</h2>
+          <p className="text-slate-500">AI-powered compatibility matching and transplant queue.</p>
+        </div>
+        <button className="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-200">
+          <Dna size={18} />
+          New Search
+        </button>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {mockRequests.filter(r => r.category === 'Organ').map((req, i) => (
+          <motion.div key={i} variants={fade} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all">
+            <div className="flex justify-between items-start mb-6">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-emerald-600 font-black text-xl">
+                  {req.patient[0]}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-800">{req.patient}</h3>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{req.id} · {req.time}</p>
+                </div>
+              </div>
+              <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase ${
+                req.urgency === 'P1' ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600'
+              }`}>
+                {req.urgency} Priority
+              </span>
+            </div>
+
+            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-sm font-bold text-slate-500">Target Organ</span>
+                <span className="text-sm font-black text-slate-900">{req.type}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-bold text-slate-500">Matching Status</span>
+                <span className="flex items-center gap-2 text-sm font-black text-emerald-600">
+                  <Activity size={14} className="animate-pulse" />
+                  {req.status}
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-3 mb-8">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Top Potential Matches</p>
+              {[1, 2].map(m => (
+                <div key={m} className="flex justify-between items-center p-3 bg-white border border-slate-100 rounded-xl">
+                  <span className="text-xs font-bold text-slate-600">Donor #{m * 42} (Compatibility: 98%)</span>
+                  <button className="text-[10px] font-black text-blue-600 hover:underline uppercase">Review</button>
+                </div>
+              ))}
+            </div>
+
+            <button className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:bg-emerald-600 transition-all flex items-center justify-center gap-2">
+              <Activity size={18} />
+              Open Matching Lab
+            </button>
+          </motion.div>
+        ))}
       </div>
     </motion.div>
   );
@@ -482,10 +582,10 @@ export default function HospitalDashboard() {
         className="hidden lg:flex flex-col w-80 min-h-screen bg-white border-r border-slate-100 p-8 fixed left-0 top-0 z-40"
       >
         <div className="flex items-center gap-4 mb-12">
-          <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
+          <div className="w-12 h-12 bg-[#b7131a] rounded-2xl flex items-center justify-center shadow-lg shadow-red-200">
             <Droplet className="text-white" size={24} />
           </div>
-          <h1 className="text-2xl font-black font-outfit text-slate-800 tracking-tighter">MedAlloc</h1>
+          <h1 className="text-2xl font-black font-outfit text-slate-800 tracking-tighter">Vital Life</h1>
         </div>
 
         {/* Role Switcher (Mock Auth) */}
@@ -497,7 +597,7 @@ export default function HospitalDashboard() {
                 key={r}
                 onClick={() => { setRole(r); setActiveTab('overview'); }}
                 className={`text-[10px] font-black py-2 rounded-xl transition-all border ${
-                  role === r ? 'bg-blue-600 border-blue-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-400 hover:border-blue-200'
+                  role === r ? 'bg-[#b7131a] border-[#b7131a] text-white shadow-md' : 'bg-white border-slate-200 text-slate-400 hover:border-red-200'
                 }`}
               >
                 {r}
@@ -514,25 +614,25 @@ export default function HospitalDashboard() {
               onClick={() => setActiveTab(item.id)}
               className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl font-bold text-sm transition-all group ${
                 activeTab === item.id
-                  ? 'bg-blue-50 text-blue-600 shadow-sm border border-blue-100'
+                  ? 'bg-red-50 text-[#b7131a] shadow-sm border border-red-100'
                   : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600'
               }`}
             >
               <item.icon size={20} strokeWidth={activeTab === item.id ? 2.5 : 2} />
               <span className="truncate">{item.label}</span>
-              {activeTab === item.id && <motion.div layoutId="active-pill" className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-600" />}
+              {activeTab === item.id && <motion.div layoutId="active-pill" className="ml-auto w-1.5 h-1.5 rounded-full bg-[#b7131a]" />}
             </button>
           ))}
         </nav>
 
         <div className="mt-8 pt-8 border-t border-slate-50">
           <div className="bg-slate-50 rounded-3xl p-5 flex items-center gap-4 group cursor-pointer hover:bg-slate-100 transition-all">
-            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm font-black text-blue-600">
+            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm font-black text-[#b7131a]">
               {role[0]}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-bold text-slate-800 text-sm truncate">User Profile</p>
-              <p className="text-[10px] font-black text-blue-600 uppercase tracking-tight">{role}</p>
+              <p className="text-[#b7131a] text-sm truncate">User Profile</p>
+              <p className="text-[10px] font-black text-[#b7131a] uppercase tracking-tight">{role}</p>
             </div>
             <LogOut size={18} className="text-slate-300 group-hover:text-rose-500 transition-all" />
           </div>
@@ -556,7 +656,7 @@ export default function HospitalDashboard() {
               <input 
                 type="text" 
                 placeholder="Global search..." 
-                className="pl-10 pr-4 py-2.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-blue-500 transition-all text-xs w-64 shadow-sm"
+                className="pl-10 pr-4 py-2.5 bg-white border border-slate-100 rounded-xl outline-none focus:border-[#b7131a] transition-all text-xs w-64 shadow-sm"
               />
             </div>
             <button className="relative w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-500 shadow-sm hover:shadow-md transition-all">
@@ -581,6 +681,7 @@ export default function HospitalDashboard() {
               {activeTab === 'overview' && renderOverview()}
               {activeTab === 'inventory' && renderInventory()}
               {activeTab === 'requests' && renderRequests()}
+              {activeTab === 'matching' && renderMatching()}
               {activeTab === 'users' && renderUsers()}
               {activeTab === 'access' && renderAccessControl()}
               {activeTab === 'reports' && renderReports()}
@@ -588,7 +689,7 @@ export default function HospitalDashboard() {
               {/* Fallback for tabs not yet fully detailed in this sweep */}
               {!['overview', 'inventory', 'requests', 'users', 'access', 'reports'].includes(activeTab) && (
                 <div className="flex flex-col items-center justify-center py-40 bg-white rounded-[40px] border border-slate-100 border-dashed">
-                  <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mb-6">
+                  <div className="w-20 h-20 bg-red-50 text-[#b7131a] rounded-3xl flex items-center justify-center mb-6">
                     <Activity size={40} />
                   </div>
                   <h3 className="text-xl font-bold text-slate-800 mb-2">Module "{activeTab}" is initializing</h3>

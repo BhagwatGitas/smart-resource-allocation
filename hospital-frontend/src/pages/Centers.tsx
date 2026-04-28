@@ -5,9 +5,9 @@ const fade = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
 const stagger = { show: { transition: { staggerChildren: 0.08 } } };
 
 const centers = [
-  { name: 'Manhattan Life Center', loc: '122 E 42nd St, New York, NY', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDS5CMdMLggDhTZjKzSvdH0rPA4xIC5PsZDquf04Zux-u8VeWVXxdWboHghllWjrjaSsPEgm0NemI7el88g8In4lDNGnD1RByulVT6Vi1CQvyQoI1tBUv6k0TpLHaHPczXIrYE42FI-gA6gv7bdBilQFtGe5JzJF-EiaRKVQ1b5rmdkkXTFRtjiOcaT2Yh1Dz0remCp_9_TbdZWk5ysyfxbgKtacUCTaHJi-oQcua6K4g1L1sapohaoNptXxXn0VJwpbtfmvAWOCnQ', needs: 'O- Negative Needed', available: 'Today, 2:30 PM', needColor: '#b7131a' },
-  { name: 'Brooklyn Hope Point', loc: '450 Flatbush Ave, Brooklyn, NY', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDPITIAKsknUFL0N7VZDW9yR4PREp8c3Y0veZlNLfrx0DqweSUDhz5a8HooqBygKDkRSPUNC932dHSJBCy3kem22OMfF03huWW1ZaRZ1VbnsxvGTy0F6Osj4OzZ3TZ4uxWKLXfD4DDMhb91hwJhJapWuwZb9N8DoZZfD5I9lLd8fzLxghdRr6L7CXs4zkPW38j_tB4DFMcROnEfGMRn_B5hBiPR12mDRTLTJ29xqzu19tqpwAUa5qZudLjjIvi9Wv5a5neTKj5pvbA', needs: 'All Blood Types', available: 'Tomorrow, 9:00 AM', needColor: '#005faf' },
-  { name: 'Queens Unity Center', loc: '34-02 Queens Blvd, LIC, NY', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAtN1BRFKkcSfC_RoIuTIOaMyqenuVeg-DCtlV9_wJslJTLvuhIuEB1O-b7qfu6bapEVhfZk_Y6M2DhYUANsH_4wza1RFA3gto37Ztiqsyrt1vFGDloxEYzcEKfxjUBPhnxyNHVMiPPK-ozF1v5nTaTBdLCzFy6F6AR3pCyCaM6w1CGDV3ig5pjQnKHdcO6NoiLYojBLMGjy7cXjMcQI4nCfk6tNXfvrR1bKA5Z3MCn9mCBlv2BBAkx5ZOp6YTbU_ocNTLALAJJYmA', needs: 'AB+ Highly Needed', available: 'Today, 4:45 PM', needColor: '#e65100' },
+  { name: 'Manhattan Life Center', loc: '122 E 42nd St, New York, NY', dist: '0.8 mi', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDS5CMdMLggDhTZjKzSvdH0rPA4xIC5PsZDquf04Zux-u8VeWVXxdWboHghllWjrjaSsPEgm0NemI7el88g8In4lDNGnD1RByulVT6Vi1CQvyQoI1tBUv6k0TpLHaHPczXIrYE42FI-gA6gv7bdBilQFtGe5JzJF-EiaRKVQ1b5rmdkkXTFRtjiOcaT2Yh1Dz0remCp_9_TbdZWk5ysyfxbgKtacUCTaHJi-oQcua6K4g1L1sapohaoNptXxXn0VJwpbtfmvAWOCnQ', needs: 'O- Negative Needed', available: 'Today, 2:30 PM', needColor: '#b7131a' },
+  { name: 'Brooklyn Hope Point', loc: '450 Flatbush Ave, Brooklyn, NY', dist: '3.2 mi', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDPITIAKsknUFL0N7VZDW9yR4PREp8c3Y0veZlNLfrx0DqweSUDhz5a8HooqBygKDkRSPUNC932dHSJBCy3kem22OMfF03huWW1ZaRZ1VbnsxvGTy0F6Osj4OzZ3TZ4uxWKLXfD4DDMhb91hwJhJapWuwZb9N8DoZZfD5I9lLd8fzLxghdRr6L7CXs4zkPW38j_tB4DFMcROnEfGMRn_B5hBiPR12mDRTLTJ29xqzu19tqpwAUa5qZudLjjIvi9Wv5a5neTKj5pvbA', needs: 'All Blood Types', available: 'Tomorrow, 9:00 AM', needColor: '#005faf' },
+  { name: 'Queens Unity Center', loc: '34-02 Queens Blvd, LIC, NY', dist: '5.1 mi', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAtN1BRFKkcSfC_RoIuTIOaMyqenuVeg-DCtlV9_wJslJTLvuhIuEB1O-b7qfu6bapEVhfZk_Y6M2DhYUANsH_4wza1RFA3gto37Ztiqsyrt1vFGDloxEYzcEKfxjUBPhnxyNHVMiPPK-ozF1v5nTaTBdLCzFy6F6AR3pCyCaM6w1CGDV3ig5pjQnKHdcO6NoiLYojBLMGjy7cXjMcQI4nCfk6tNXfvrR1bKA5Z3MCn9mCBlv2BBAkx5ZOp6YTbU_ocNTLALAJJYmA', needs: 'AB+ Highly Needed', available: 'Today, 4:45 PM', needColor: '#e65100' },
 ];
 
 export default function Centers() {
@@ -24,6 +24,23 @@ export default function Centers() {
           <h3 className="font-jakarta text-xl font-bold text-[#191c1d] mb-6">Filters</h3>
 
           <div className="space-y-6 flex-1">
+            {/* Location Search */}
+            <div>
+              <label className="text-sm font-semibold text-[#5b403d] mb-2 block">Search Location</label>
+              <div className="relative mb-3">
+                <span className="material-symbols-outlined absolute left-3 top-2.5 text-[#906f6c] text-base">search</span>
+                <input 
+                  type="text" 
+                  placeholder="City, state, or zip..." 
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#f8f9fa] border border-[#e4beb9] rounded-xl text-sm outline-none focus:border-[#b7131a] transition-all"
+                />
+              </div>
+              <button className="flex items-center justify-center gap-2 w-full py-2.5 border-2 border-[#b7131a] text-[#b7131a] rounded-xl font-bold text-xs hover:bg-[#b7131a]/5 transition-all">
+                <span className="material-symbols-outlined text-base">my_location</span>
+                Use My Current Location
+              </button>
+            </div>
+
             {/* Availability */}
             <div>
               <label className="text-sm font-semibold text-[#5b403d] mb-2 block">Availability</label>
@@ -83,13 +100,22 @@ export default function Centers() {
               </nav>
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                  <h1 className="font-jakarta text-3xl font-extrabold text-[#191c1d]">Find a Center</h1>
+                  <h1 className="font-jakarta text-3xl font-extrabold text-[#191c1d] flex items-center gap-2">
+                    <span className="material-symbols-outlined text-3xl text-[#b7131a]">location_on</span>
+                    Find a Center
+                  </h1>
                   <p className="text-[#5b403d] text-base mt-1 max-w-lg">Every drop counts. Locate your nearest center and book a life-saving appointment today.</p>
                 </div>
-                <button className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white border border-[#e4beb9] rounded-xl text-sm font-semibold text-[#5b403d] hover:bg-[#f3f4f5] transition-all">
-                  <span className="material-symbols-outlined text-base">sort</span>
-                  Sort By
-                </button>
+                <div className="flex items-center gap-2">
+                  <button className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white border border-[#e4beb9] rounded-xl text-sm font-semibold text-[#5b403d] hover:bg-[#f3f4f5] transition-all">
+                    <span className="material-symbols-outlined text-base">map</span>
+                    View Map
+                  </button>
+                  <button className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white border border-[#e4beb9] rounded-xl text-sm font-semibold text-[#5b403d] hover:bg-[#f3f4f5] transition-all">
+                    <span className="material-symbols-outlined text-base">sort</span>
+                    Sort By
+                  </button>
+                </div>
               </div>
             </motion.div>
 
@@ -107,6 +133,10 @@ export default function Centers() {
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
                       <span className="w-2 h-2 rounded-full bg-[#006b1b]" />
                       <span className="text-[#006b1b] text-xs font-bold">Open Now</span>
+                    </div>
+                    <div className="absolute top-4 right-4 bg-[#b7131a] text-white px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+                      <span className="material-symbols-outlined text-xs">near_me</span>
+                      <span className="text-[10px] font-bold">{center.dist}</span>
                     </div>
                   </div>
                   <div className="p-5 space-y-4">

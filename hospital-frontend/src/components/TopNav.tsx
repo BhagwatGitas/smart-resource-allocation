@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import { Sparkles } from 'lucide-react';
 const navLinks = [
-  { to: '/centers', label: 'Centers' },
-  { to: '/our-impact', label: 'Impact' },
   { to: '/register', label: 'Register' },
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/my-impact', label: 'My Profile' },
@@ -19,17 +17,36 @@ export default function TopNav() {
       <nav className="fixed top-0 w-full z-50 bg-white/95 border-b border-[#e7e8e9] shadow-sm backdrop-blur-md">
         <div className="flex justify-between items-center px-4 md:px-8 h-20 max-w-7xl mx-auto">
           <div className="flex items-center gap-8">
-            <Link to="/" className="font-jakarta text-2xl font-extrabold text-[#b7131a] tracking-tight">Vital Cycle</Link>
+            <Link to="/" className="font-jakarta text-2xl font-extrabold text-[#b7131a] tracking-tight">Vital Life</Link>
             <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
+              {[
+                { to: '/centers', label: 'Blood Centers' },
+                { to: '/organs', label: 'Organ Registry' },
+                { to: '/our-impact', label: 'Impact' },
+              ].map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`font-jakarta text-sm font-semibold px-4 py-2 rounded-lg transition-all ${
-                    location.pathname === link.to
+                  className={`font-jakarta text-sm font-semibold px-4 py-2 rounded-lg transition-all ${location.pathname === link.to
                       ? 'bg-[#b7131a]/10 text-[#b7131a]'
                       : 'text-[#5b403d] hover:bg-[#f3f4f5] hover:text-[#191c1d]'
-                  }`}
+                    }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              {[
+                { to: '/register', label: 'Register' },
+                { to: '/dashboard', label: 'Dashboard' },
+                { to: '/my-impact', label: 'My Profile' },
+              ].map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`font-jakarta text-sm font-semibold px-4 py-2 rounded-lg transition-all ${location.pathname === link.to
+                      ? 'bg-[#b7131a]/10 text-[#b7131a]'
+                      : 'text-[#5b403d] hover:bg-[#f3f4f5] hover:text-[#191c1d]'
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -63,11 +80,10 @@ export default function TopNav() {
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`block px-4 py-3 rounded-xl font-jakarta text-sm font-semibold transition-all ${
-                    location.pathname === link.to
+                  className={`block px-4 py-3 rounded-xl font-jakarta text-sm font-semibold transition-all ${location.pathname === link.to
                       ? 'bg-[#b7131a]/10 text-[#b7131a]'
                       : 'text-[#5b403d] hover:bg-[#f3f4f5]'
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>

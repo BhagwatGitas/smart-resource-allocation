@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <Link to="/" className="font-jakarta text-xl font-extrabold text-[#b7131a]">Vital Cycle</Link>
+            <Link to="/" className="font-jakarta text-xl font-extrabold text-[#b7131a]">Vital Life</Link>
             <p className="text-sm text-[#5b403d] mt-2 max-w-xs">Saving lives through timely donation. Connecting donors with those in need.</p>
           </div>
 
@@ -28,7 +28,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-6 border-t border-[#e7e8e9] text-center">
           <p className="font-jakarta text-xs text-[#906f6c]">
-            © 2026 Vital Cycle. All rights reserved.
+            © 2026 Vital Life. All rights reserved.
           </p>
         </div>
       </div>

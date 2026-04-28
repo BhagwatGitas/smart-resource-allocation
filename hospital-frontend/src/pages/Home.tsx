@@ -23,7 +23,7 @@ export default function Home() {
               Connect Donors<br />with <span className="text-[#b7131a]">Those in Need</span>
             </motion.h1>
             <motion.p variants={fade} className="text-[#5b403d] text-lg leading-relaxed max-w-lg">
-              Vital Cycle is the bridge between life-saving donors and patients in critical need of blood and organ donations — powered by real-time logistics and compassionate community.
+              Vital Life is the bridge between life-saving donors and patients in critical need of blood and organ donations — powered by real-time logistics and compassionate community.
             </motion.p>
             <motion.div variants={fade} className="flex flex-wrap gap-4">
               <Link to="/register" className="bg-[#b7131a] text-white px-8 py-4 rounded-full font-bold font-jakarta text-base flex items-center gap-2 shadow-lg hover:shadow-xl hover:bg-[#9a1016] transition-all active:scale-95">
@@ -119,28 +119,73 @@ export default function Home() {
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-            <h2 className="font-jakarta text-4xl font-bold text-[#191c1d] mb-3">Current Blood Type Needs</h2>
-            <p className="text-[#5b403d] text-lg max-w-xl mx-auto">Our network is constantly monitoring shortage levels across all blood types.</p>
+            <h2 className="font-jakarta text-4xl font-bold text-[#191c1d] mb-3">Live Inventory Monitoring</h2>
+            <p className="text-[#5b403d] text-lg max-w-xl mx-auto">Our AI engine tracks real-time availability for both blood and organ registries.</p>
           </motion.div>
-          <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
-            {[
-              { type: 'O-', level: 'Critical', pct: 12, color: '#b7131a' },
-              { type: 'O+', level: 'Low', pct: 31, color: '#e65100' },
-              { type: 'A-', level: 'Moderate', pct: 52, color: '#f59e0b' },
-              { type: 'A+', level: 'Good', pct: 65, color: '#006b1b' },
-              { type: 'B-', level: 'Low', pct: 28, color: '#e65100' },
-              { type: 'B+', level: 'Good', pct: 74, color: '#006b1b' },
-              { type: 'AB-', level: 'Moderate', pct: 45, color: '#005faf' },
-              { type: 'AB+', level: 'Good', pct: 80, color: '#006b1b' },
-            ].map((bt, i) => (
-              <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }} whileHover={{ scale: 1.05 }} className="bg-white border border-[#e4beb9] rounded-2xl p-4 flex flex-col items-center gap-2 shadow-soft cursor-pointer">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center font-jakarta font-extrabold text-white text-sm" style={{ background: bt.color }}>{bt.type}</div>
-                <div className="text-xs font-semibold" style={{ color: bt.color }}>{bt.level}</div>
-                <div className="w-full bg-[#f3f4f5] h-1.5 rounded-full overflow-hidden">
-                  <div className="h-full rounded-full" style={{ width: `${bt.pct}%`, background: bt.color }} />
-                </div>
-              </motion.div>
-            ))}
+          
+          {/* Blood Inventory */}
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-[#b7131a]/10 flex items-center justify-center text-[#b7131a]">
+                <span className="material-symbols-outlined">bloodtype</span>
+              </div>
+              <h3 className="font-jakarta text-2xl font-bold text-[#191c1d]">Blood Supply Status</h3>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+              {[
+                { type: 'O-', level: 'Critical', pct: 12, color: '#b7131a' },
+                { type: 'O+', level: 'Low', pct: 31, color: '#e65100' },
+                { type: 'A-', level: 'Moderate', pct: 52, color: '#f59e0b' },
+                { type: 'A+', level: 'Good', pct: 65, color: '#006b1b' },
+                { type: 'B-', level: 'Low', pct: 28, color: '#e65100' },
+                { type: 'B+', level: 'Good', pct: 74, color: '#006b1b' },
+                { type: 'AB-', level: 'Moderate', pct: 45, color: '#005faf' },
+                { type: 'AB+', level: 'Good', pct: 80, color: '#006b1b' },
+              ].map((bt, i) => (
+                <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }} whileHover={{ scale: 1.05 }} className="bg-white border border-[#e4beb9] rounded-2xl p-4 flex flex-col items-center gap-2 shadow-soft cursor-pointer">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center font-jakarta font-extrabold text-white text-sm" style={{ background: bt.color }}>{bt.type}</div>
+                  <div className="text-xs font-semibold" style={{ color: bt.color }}>{bt.level}</div>
+                  <div className="w-full bg-[#f3f4f5] h-1.5 rounded-full overflow-hidden">
+                    <div className="h-full rounded-full" style={{ width: `${bt.pct}%`, background: bt.color }} />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Organ Availability */}
+          <div className="pt-8 border-t border-[#e7e8e9]">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
+                <span className="material-symbols-outlined">dna</span>
+              </div>
+              <h3 className="font-jakarta text-2xl font-bold text-[#191c1d]">Organ Registry Status</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { type: 'Kidney', level: 'Critical', pct: 8, color: '#b7131a', icon: 'kidneys' },
+                { type: 'Liver', level: 'Low', pct: 24, color: '#e65100', icon: 'vital_signs' },
+                { type: 'Heart', level: 'Stable', pct: 42, color: '#005faf', icon: 'favorite' },
+                { type: 'Lung', level: 'Critical', pct: 15, color: '#b7131a', icon: 'airway' },
+              ].map((org, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft hover:shadow-lg transition-all">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-slate-400" style={{ fontVariationSettings: "'FILL' 1" }}>{org.icon}</span>
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md bg-slate-100 text-slate-500">Live Status</span>
+                  </div>
+                  <h4 className="font-jakarta text-lg font-bold text-[#191c1d] mb-1">{org.type}</h4>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-bold" style={{ color: org.color }}>{org.level} Need</span>
+                    <span className="text-sm font-black text-slate-400">{org.pct}% Available</span>
+                  </div>
+                  <div className="w-full bg-[#f3f4f5] h-3 rounded-full overflow-hidden p-0.5">
+                    <div className="h-full rounded-full animate-pulse" style={{ width: `${org.pct}%`, background: org.color }} />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
