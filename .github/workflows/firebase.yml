@@ -1,0 +1,41 @@
+name: Deploy Frontend to Firebase
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Get code
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # 2. Go to frontend folder
+      - name: Move to frontend
+        run: cd hospital-frontend
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: |
+          cd hospital-frontend
+          npm install
+
+      # 4. Build project
+      - name: Build
+        run: |
+          cd hospital-frontend
+          npm run build
+
+      # 5. Install Firebase CLI
+      - name: Install Firebase
+        run: npm install -g firebase-tools
+
+      # 6. Deploy
+      - name: Deploy to Firebase
+        run: |
+          cd hospital-frontend
+          firebase deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }}
