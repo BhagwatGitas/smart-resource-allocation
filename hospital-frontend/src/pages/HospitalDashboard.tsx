@@ -11,10 +11,8 @@ import {
   Settings, 
   LogOut, 
   AlertTriangle,
-  CheckCircle2,
   Clock,
   ArrowUpRight,
-  ArrowDownRight,
   Filter,
   UserPlus,
   Dna,
@@ -23,17 +21,13 @@ import {
   MoreVertical
 } from 'lucide-react';
 import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer, 
-  LineChart, 
-  Line,
-  AreaChart,
-  Area,
   PieChart,
   Pie,
   Cell,
@@ -105,7 +99,6 @@ const chartData = [
 export default function HospitalDashboard() {
   const [role, setRole] = useState<Role>('ADMIN');
   const [activeTab, setActiveTab] = useState('overview');
-  const [searchQuery, setSearchQuery] = useState('');
 
   const sidebarItems = sidebarConfig[role];
 

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 const navLinks = [
   { to: '/register', label: 'Register' },
   { to: '/dashboard', label: 'Dashboard' },

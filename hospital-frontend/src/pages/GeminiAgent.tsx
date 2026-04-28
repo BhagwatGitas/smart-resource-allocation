@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Sparkles, Trash2, ChevronRight, Info, Zap, MessageSquare, History, Search, Plus } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Send, Sparkles, ChevronRight, Info, Zap, History, Search, Plus } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 interface Message {

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Activity, ShieldCheck, Zap, Heart, Search, FileText, UserPlus, Clock, TrendingUp, BarChart3 } from 'lucide-react';
+import { Activity, ShieldCheck, Zap, Search, FileText, UserPlus, Clock, TrendingUp } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const analyticsData = [

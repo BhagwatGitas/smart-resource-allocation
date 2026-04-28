@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Test route
+
 app.get("/test", async (req, res) => {
     try {
         const snapshot = await db.collection("notes").get();
@@ -32,6 +32,9 @@ app.get("/test", async (req, res) => {
 app.get("/hospital", (req, res) => {
     res.json({ status: "ok", db: "connected" });
 });
+
+// Auth Routes
+
 
 
 app.listen(4000, () => {

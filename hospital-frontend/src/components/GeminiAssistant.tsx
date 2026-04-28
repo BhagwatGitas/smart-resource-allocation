@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Sparkles, Trash2, Zap, MessageSquare, Minimize2 } from 'lucide-react';
+import { Send, Sparkles, Trash2, Zap, Minimize2 } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
@@ -10,14 +10,6 @@ interface Message {
   content: string;
 }
 
-const PAGE_CONTEXTS: Record<string, string> = {
-  '/': 'Home Page: Overview of Vital Life.',
-  '/centers': 'Donation Centers: Find locations.',
-  '/dashboard': 'Hospital Dashboard: Real-time inventory.',
-  '/register': 'Donor Registration: Join the community.',
-  '/our-impact': 'Our Impact: Success stories.',
-  '/my-impact': 'My Impact: Personal contributions.',
-};
 
 const GREETINGS: Record<string, string> = {
   '/': 'Hi! I\'m your **Vital Life Assistant**. How can I help you save lives today?',
