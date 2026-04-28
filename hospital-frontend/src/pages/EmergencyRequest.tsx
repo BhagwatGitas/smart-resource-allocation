@@ -24,7 +24,7 @@ export default function EmergencyRequest() {
             </div>
             <div>
               <h1 className="font-jakarta text-xl font-bold text-white">Emergency Request</h1>
-              <p className="text-white/75 text-sm">City General Hospital • Vital Cycle Network</p>
+              <p className="text-white/75 text-sm">City General Hospital • Vital Life Network</p>
             </div>
           </div>
           <Link to="/" className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center hover:bg-white/25 transition-all">
@@ -101,7 +101,7 @@ export default function EmergencyRequest() {
           <motion.div variants={fade} className="flex items-start gap-3 p-4 bg-[#f0f7ff] rounded-xl border border-[#005faf]/20">
             <span className="material-symbols-outlined text-[#005faf] mt-0.5 shrink-0">info</span>
             <p className="text-sm text-[#5b403d] leading-relaxed">
-              Submitting this request will alert all compatible <span className="font-bold text-[#b7131a]">Vital Cycle</span> centers within a 50km radius. Courier dispatch will be automated upon confirmation.
+              Submitting this request will alert all compatible <span className="font-bold text-[#b7131a]">Vital Life</span> centers within a 50km radius. Courier dispatch will be automated upon confirmation.
             </p>
           </motion.div>
 
